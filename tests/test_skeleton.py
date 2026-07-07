@@ -1,9 +1,11 @@
 """Skeleton smoke tests — no paid APIs, no network, no model downloads."""
+
 from prompts.loader import load
 
 
 def test_config_loads():
     from config import settings
+
     assert settings.embedding_device in ("cpu", "cuda")
 
 

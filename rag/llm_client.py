@@ -17,6 +17,7 @@ Verified 2026-07-07 (web check; re-verify numbers in your own console after sign
     is retired. Free-tier prompts may be used for training → fine for public
     legal text, never for private data.
 """
+
 from openai import OpenAI
 
 from config import settings

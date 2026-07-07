@@ -3,6 +3,7 @@
 Run: uv run python -m scripts.healthcheck
 Exits 0 if the environment can support Phase 1 work.
 """
+
 import sys
 from pathlib import Path
 
@@ -15,7 +16,10 @@ def main() -> int:
 
     try:
         from config import settings
-        print(f"[ok] config loaded (embedding={settings.embedding_model}, device={settings.embedding_device})")
+
+        print(
+            f"[ok] config loaded (embedding={settings.embedding_model}, device={settings.embedding_device})"
+        )
     except Exception as e:
         print(f"[FAIL] config: {e}")
         return 1
@@ -28,8 +32,12 @@ def main() -> int:
         name = "_healthcheck"
         if client.collection_exists(name):
             client.delete_collection(name)
-        client.create_collection(name, vectors_config=VectorParams(size=4, distance=Distance.COSINE))
-        client.upsert(name, points=[PointStruct(id=1, vector=[0.1, 0.2, 0.3, 0.4], payload={"t": "x"})])
+        client.create_collection(
+            name, vectors_config=VectorParams(size=4, distance=Distance.COSINE)
+        )
+        client.upsert(
+            name, points=[PointStruct(id=1, vector=[0.1, 0.2, 0.3, 0.4], payload={"t": "x"})]
+        )
         hit = client.query_points(name, query=[0.1, 0.2, 0.3, 0.4], limit=1).points[0]
         assert hit.payload["t"] == "x"
         client.delete_collection(name)
@@ -47,7 +55,9 @@ def main() -> int:
     if configured:
         print(f"[ok] LLM providers configured: {', '.join(configured)}")
     else:
-        print("[warn] no LLM provider keys — fine for retrieval work; needed for generation/judge evals")
+        print(
+            "[warn] no LLM provider keys — fine for retrieval work; needed for generation/judge evals"
+        )
 
     print("[done] healthcheck", "PASSED" if ok else "FAILED")
     return 0 if ok else 1

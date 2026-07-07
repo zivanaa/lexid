@@ -1,4 +1,5 @@
 """Central config. All env access goes through here — never os.environ elsewhere."""
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
