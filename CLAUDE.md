@@ -46,13 +46,16 @@ EXISTS (tested): `config.py`, `scripts/healthcheck.py`, `rag/llm_client.py`,
 `evals/RESULTS.md` (template), package folders, `ingestion/parse.py` +
 `tests/test_parse.py` (naive page-level parse, tested on the committed
 `data/samples/uu-7-2021-hpp-excerpt.pdf`), `ingestion/chunk.py` +
-`tests/test_chunk.py` (fixed-size word-window chunker, 250 words / 50 overlap).
+`tests/test_chunk.py` (fixed-size word-window chunker, 250 words / 50 overlap),
+`ingestion/embed.py` (local BGE-M3, lazy torch import), `ingestion/index.py`
+(embedded Qdrant; NOTE: local-mode `delete_collection` on Windows resurrects
+old points on re-create — clear via empty-filter delete instead),
+`ingestion/run.py` (manifest → parse → chunk → embed → index), tests for all.
 Corpus downloaded 2026-07-07: UU HPP batang tubuh + penjelasan from
 peraturan.go.id (clean text layer; manifest has sha256/pages; BPK copy
 rejected — dirty OCR, see manifest notes).
 
 PLANNED (build in this order): 
-`ingestion/embed.py` → `ingestion/index.py` → `ingestion/run.py` →
 `rag/retrieve.py` → `rag/generate.py` → `rag/pipeline.py` →
 `evals/run_retrieval.py` → `evals/gate_check.py` → `evals/run_generation.py`.
 When you create a PLANNED file, move it to EXISTS in the same commit.
@@ -151,8 +154,8 @@ uv run python -m scripts.healthcheck   # EXISTS — env/qdrant sanity
 uv sync --extra embed                  # when ingestion needs sentence-transformers (torch ~2GB)
 uv run pytest                          # EXISTS — no network, no paid APIs, no model downloads
 uv run ruff check . && uv run ruff format --check .   # EXISTS
+uv run python -m ingestion.run         # EXISTS — corpus PDFs → embedded Qdrant (needs --extra embed)
 # PLANNED (add here as they become real):
-# uv run python -m ingestion.run
 # uv run python -m evals.run_retrieval
 # uv run python -m evals.gate_check
 ```
