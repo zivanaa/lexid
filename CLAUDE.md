@@ -12,8 +12,11 @@ Detailed specs live in `docs/` — read the doc for the CURRENT phase only:
 ## Budget: Rp 0 (hard constraint)
 
 No paid APIs, no paid GPUs, no paid hosting. Concretely:
-- **Generation LLM:** Gemini free tier via OpenAI-compatible endpoint (primary).
-  **Judge LLM:** Groq free tier (different family than generator — required).
+- **Generation LLM:** Gemini 3.1 Flash Lite for daily dev iteration (500 RPD);
+  Groq Llama-3.3-70B for final-quality runs & the demo (stronger model, but
+  ~100K tokens/day binds → use sparingly).
+  **Judge LLM:** Gemma 4 26B via the same Gemini API key (1.5K RPD, unlimited
+  TPM — highest free volume; different family from both generators ✓).
   **Fallback:** OpenRouter `:free` models. See `rag/llm_client.py`.
 - **Embeddings & reranker:** local models on CPU. **Vector DB:** Qdrant embedded
   local mode (`path=`, no Docker, no server). **Fine-tuning:** Kaggle/Colab free GPU.
@@ -52,12 +55,18 @@ When you create a PLANNED file, move it to EXISTS in the same commit.
 
 Resolved by verification:
 - **Groq free tier confirmed:** no credit card; `llama-3.3-70b-versatile` at
-  ~30 RPM / 1,000 RPD / 12K TPM / **100K TPD** — TPD binds judge suites, so keep
-  judge prompts lean, cache results, split runs across days if needed.
-- **Gemini free tier confirmed to exist,** but exact limits are per-project and
-  the model line-up has moved (3.x line live; 2.5 Flash still listed free as of
-  late June 2026). Free-tier data may be used for training → public legal text
-  only. Pick the current free Flash-class model id inside AI Studio.
+  ~30 RPM / 1,000 RPD / 12K TPM / **100K TPD** — TPD binds. Console confirms:
+  context window 131,072, max output 32,768, Tool Use + **JSON Object Mode**
+  (use JSON mode for judge/extraction outputs).
+- **Gemini free tier — MEASURED from the owner's own project console
+  (2026-07-07); articles claiming "1,500 RPD Flash" did NOT apply:**
+  Gemini 2.5/3/3.5 Flash: 5 RPM / 250K TPM / **only 20 RPD** (trap — dev-test only).
+  **Gemini 3.1 Flash Lite: 15 RPM / 250K TPM / 500 RPD** ← daily-dev generator.
+  **Gemma 4 26B & 31B: 15 RPM / unlimited TPM / 1,500 RPD** ← primary judge.
+  Pro models: 0/0/0 on free tier (paid only).
+  **Gemini Embedding 1 & 2: 100 RPM / 30K TPM / 1K RPD** ← free API embedding
+  comparison target vs local BGE-M3 (same model must embed corpus AND queries).
+  Lesson recorded: per-project console numbers override any published figures.
 - **BGE-M3 confirmed** as the standard self-hosted multilingual default in 2026
   ("most production RAG stacks default to BGE-M3 + BGE-reranker-v2"). Bonus: it
   natively supports SPARSE retrieval → hybrid experiment can compare BM25

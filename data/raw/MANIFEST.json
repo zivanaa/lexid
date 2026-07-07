@@ -1,0 +1,45 @@
+{
+  "_instructions": [
+    "Setiap dokumen di data/raw/ WAJIB punya entry di sini — korpus harus bisa direproduksi dari manifest ini.",
+    "Setelah mengunduh sebuah file: (1) isi sha256, (2) isi pages, (3) isi text_layer_check.",
+    "Cara hitung sha256 — Mac/Linux: shasum -a 256 data/raw/<file> | Windows PowerShell: Get-FileHash data/raw/<file> -Algorithm SHA256",
+    "text_layer_check: buka PDF, seleksi teks, Ctrl+F 'Pasal 17'. Isi 'clean' (teks bersih & bisa dicari), 'dirty_ocr' (ada pola galat spt '2OO9'), atau 'no_text_layer' (scan murni).",
+    "File PDF-nya sendiri gitignored; HANYA manifest ini yang di-commit."
+  ],
+  "documents": [
+    {
+      "id": "uu-hpp-2021",
+      "file": "uu-7-2021-hpp.pdf",
+      "title": "Undang-Undang Nomor 7 Tahun 2021 tentang Harmonisasi Peraturan Perpajakan",
+      "doc_type": "undang-undang",
+      "identifiers": {
+        "lembaran_negara": "LN 2021 No. 246",
+        "tambahan_lembaran_negara": "TLN No. 6736"
+      },
+      "source_url": "https://peraturan.bpk.go.id/details/185162/uu-no-7-tahun-2021",
+      "download_url": "https://peraturan.bpk.go.id/Download/178620/UU%20Nomor%207%20Tahun%202021.pdf",
+      "retrieved_at": "2026-07-07",
+      "sha256": null,
+      "pages": null,
+      "text_layer_check": null,
+      "public_domain": true,
+      "public_domain_basis": "Peraturan perundang-undangan bukan objek hak cipta (Pasal 42 UU 28/2014)",
+      "notes": "Dokumen jangkar Phase 1. Fakta eval terverifikasi: PPh badan 22% = Pasal 17 ayat (1) huruf b UU PPh jo. UU HPP. HINDARI versi 'Salinan' pajak.go.id (text layer OCR kotor: '2OO9', '3262lr')."
+    }
+  ],
+  "backlog": [
+    {
+      "id": "kem-ppkf-2022",
+      "title": "Kerangka Ekonomi Makro dan Pokok-Pokok Kebijakan Fiskal Tahun 2022",
+      "source_url": "https://fiskal.kemenkeu.go.id/publikasi/kem-ppkf",
+      "planned_for": "Phase 1.5 — eksperimen korpus heterogen (dokumen naratif tanpa struktur pasal/ayat; butuh mode chunking kedua: bab/subbab/halaman)",
+      "notes": "Ide dari pemilik project. Ditunda dari Phase 1 karena mismatch struktur dgn chunker pasal/ayat + PDF berat grafik/tabel."
+    },
+    {
+      "id": "uu-kup",
+      "title": "UU Ketentuan Umum dan Tata Cara Perpajakan (konsolidasi terakhir)",
+      "planned_for": "Phase 1 — dokumen kedua opsional setelah pipeline stabil di UU HPP",
+      "notes": "Tentukan versi konsolidasi yang tepat sebelum unduh."
+    }
+  ]
+}

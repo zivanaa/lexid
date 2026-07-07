@@ -45,10 +45,14 @@ chunking {fixed-512, recursive, pasal/ayat structure-aware} × context-prefix
 {dense-only, hybrid BM25+RRF} × rerank {on, off}. Full grid not required —
 follow promising branches; every run gets a RESULTS.md entry.
 
-## Judge quota math (verified 2026-07-07)
-Groq llama-3.3-70b free ≈ 100K tokens/DAY — the binding constraint. A lean judge
-call (short rubric + answer + chunks) ≈ 700–900 tokens, so a full 120-item pass
-≈ 85–110K tokens: fits ONE day only if prompts stay lean and results are cached.
-Mitigations in order: (1) cache hits are free, (2) split suite across 2 days,
-(3) fallback judge = an OpenRouter :free model (log which judge produced which
-score — never mix judges within one comparison row).
+## Judge quota math (measured from owner console, 2026-07-07)
+Primary judge = **Gemma 4 26B via Gemini API**: 1,500 RPD, unlimited TPM →
+a full 120-item pass uses ~120-240 requests (~10-16% of daily quota). Run it
+freely for merge candidates; caching by (item_id, answer_hash,
+judge_prompt_version) still applies. 15 RPM → throttle to ~1 call/4s.
+Fallback judge = Groq Llama-3.3-70B (JSON mode confirmed): 100K tokens/DAY
+binds — lean prompts, one pass/day max. Never mix judges within one
+comparison row; log which judge scored what.
+Generator quotas: Gemini 3.1 Flash Lite 500 RPD (daily dev); Groq 70B for
+final-quality runs (~30-50 RAG answers/day within 100K TPD at 2-4K
+tokens/answer). The 20-RPD Flash models are dev-test toys only.
