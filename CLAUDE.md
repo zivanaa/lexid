@@ -45,11 +45,13 @@ EXISTS (tested): `config.py`, `scripts/healthcheck.py`, `rag/llm_client.py`,
 `prompts/loader.py` + `prompts/rag_generation.md`, `tests/test_skeleton.py`,
 `evals/RESULTS.md` (template), package folders, `ingestion/parse.py` +
 `tests/test_parse.py` (naive page-level parse, tested on the committed
-`data/samples/uu-7-2021-hpp-excerpt.pdf`). Corpus downloaded 2026-07-07:
-UU HPP batang tubuh + penjelasan from peraturan.go.id (clean text layer;
-manifest has sha256/pages; BPK copy rejected — dirty OCR, see manifest notes).
+`data/samples/uu-7-2021-hpp-excerpt.pdf`), `ingestion/chunk.py` +
+`tests/test_chunk.py` (fixed-size word-window chunker, 250 words / 50 overlap).
+Corpus downloaded 2026-07-07: UU HPP batang tubuh + penjelasan from
+peraturan.go.id (clean text layer; manifest has sha256/pages; BPK copy
+rejected — dirty OCR, see manifest notes).
 
-PLANNED (build in this order): `ingestion/chunk.py` →
+PLANNED (build in this order): 
 `ingestion/embed.py` → `ingestion/index.py` → `ingestion/run.py` →
 `rag/retrieve.py` → `rag/generate.py` → `rag/pipeline.py` →
 `evals/run_retrieval.py` → `evals/gate_check.py` → `evals/run_generation.py`.
