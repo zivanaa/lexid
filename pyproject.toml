@@ -1,0 +1,26 @@
+[project]
+name = "lexid"
+version = "0.1.0"
+description = "Agentic legal research assistant for Indonesian regulations (portfolio capstone)"
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic>=2.7",
+    "pydantic-settings>=2.2",
+    "qdrant-client>=1.9",       # local mode (path-based) works WITHOUT Docker
+    "rank-bm25>=0.2",
+    "openai>=1.30",              # generic client for OpenAI-compatible FREE providers (Gemini/Groq/OpenRouter)
+    "pymupdf>=1.24",
+    "httpx>=0.27",
+]
+
+[project.optional-dependencies]
+embed = ["sentence-transformers>=3.0"]  # BGE-M3/e5 local; pulls torch (~2GB) — install when building ingestion: uv sync --extra embed
+
+[dependency-groups]
+dev = ["pytest>=8.0", "ruff>=0.4"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
