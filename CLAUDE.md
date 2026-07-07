@@ -43,9 +43,13 @@ This file must never describe a repo that doesn't exist. Current truth:
 
 EXISTS (tested): `config.py`, `scripts/healthcheck.py`, `rag/llm_client.py`,
 `prompts/loader.py` + `prompts/rag_generation.md`, `tests/test_skeleton.py`,
-`evals/RESULTS.md` (template), package folders.
+`evals/RESULTS.md` (template), package folders, `ingestion/parse.py` +
+`tests/test_parse.py` (naive page-level parse, tested on the committed
+`data/samples/uu-7-2021-hpp-excerpt.pdf`). Corpus downloaded 2026-07-07:
+UU HPP batang tubuh + penjelasan from peraturan.go.id (clean text layer;
+manifest has sha256/pages; BPK copy rejected — dirty OCR, see manifest notes).
 
-PLANNED (build in this order): `ingestion/parse.py` → `ingestion/chunk.py` →
+PLANNED (build in this order): `ingestion/chunk.py` →
 `ingestion/embed.py` → `ingestion/index.py` → `ingestion/run.py` →
 `rag/retrieve.py` → `rag/generate.py` → `rag/pipeline.py` →
 `evals/run_retrieval.py` → `evals/gate_check.py` → `evals/run_generation.py`.
@@ -87,8 +91,9 @@ Remaining manual steps (owner, ~15 min, all free):
    limits from the AI Studio rate-limit page into this section.
 2. Create Groq key at console.groq.com (no card) → confirm model id list.
 3. (Optional) OpenRouter key as fallback.
-4. Click-check jdih.kemenkeu.go.id + peraturan.go.id and pick the 2–3 source
-   documents for Phase 1; record URLs in data/raw/MANIFEST.json.
+4. ~~Pick source documents~~ DONE 2026-07-07: UU HPP bt+pjl from
+   peraturan.go.id recorded in data/raw/MANIFEST.json with sha256 + clean
+   text-layer check. (Optional second doc UU KUP stays in manifest backlog.)
 
 ## Core Principles (non-negotiable)
 

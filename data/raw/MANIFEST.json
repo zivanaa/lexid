@@ -8,23 +8,41 @@
   ],
   "documents": [
     {
-      "id": "uu-hpp-2021",
-      "file": "uu-7-2021-hpp.pdf",
-      "title": "Undang-Undang Nomor 7 Tahun 2021 tentang Harmonisasi Peraturan Perpajakan",
+      "id": "uu-hpp-2021-bt",
+      "file": "uu-7-2021-hpp-bt.pdf",
+      "title": "Undang-Undang Nomor 7 Tahun 2021 tentang Harmonisasi Peraturan Perpajakan (Batang Tubuh, Lembaran Negara)",
       "doc_type": "undang-undang",
       "identifiers": {
         "lembaran_negara": "LN 2021 No. 246",
         "tambahan_lembaran_negara": "TLN No. 6736"
       },
-      "source_url": "https://peraturan.bpk.go.id/details/185162/uu-no-7-tahun-2021",
-      "download_url": "https://peraturan.bpk.go.id/Download/178620/UU%20Nomor%207%20Tahun%202021.pdf",
+      "source_url": "https://peraturan.go.id/id/uu-no-7-tahun-2021",
+      "download_url": "https://peraturan.go.id/files/uu7-2021bt.pdf",
       "retrieved_at": "2026-07-07",
-      "sha256": null,
-      "pages": null,
-      "text_layer_check": null,
+      "sha256": "296b5bf34c4ec496b1e72ea6c9f878aee26ec68bb05afce2a21e4f469c7f3147",
+      "pages": 114,
+      "text_layer_check": "clean",
       "public_domain": true,
       "public_domain_basis": "Peraturan perundang-undangan bukan objek hak cipta (Pasal 42 UU 28/2014)",
-      "notes": "Dokumen jangkar Phase 1. Fakta eval terverifikasi: PPh badan 22% = Pasal 17 ayat (1) huruf b UU PPh jo. UU HPP. HINDARI versi 'Salinan' pajak.go.id (text layer OCR kotor: '2OO9', '3262lr')."
+      "notes": "Dokumen jangkar Phase 1. Fakta eval terverifikasi: PPh badan 22% = Pasal 17 ayat (1) huruf b UU PPh jo. UU HPP — tercantum bersih di hlm. 63 ('sebesar 22% (dua puluh dua persen)'). Versi BPK (peraturan.bpk.go.id/Download/178620) DITOLAK 2026-07-07: text layer OCR kotor ('2O2I', '22o/o', 'RpS.000.OO0.000,0O'). Versi pajak.go.id 'Salinan' juga kotor. Excerpt 4 hlm. di data/samples/ untuk test."
+    },
+    {
+      "id": "uu-hpp-2021-pjl",
+      "file": "uu-7-2021-hpp-pjl.pdf",
+      "title": "Penjelasan atas UU Nomor 7 Tahun 2021 tentang Harmonisasi Peraturan Perpajakan (Tambahan Lembaran Negara)",
+      "doc_type": "penjelasan-undang-undang",
+      "identifiers": {
+        "tambahan_lembaran_negara": "TLN No. 6736"
+      },
+      "source_url": "https://peraturan.go.id/id/uu-no-7-tahun-2021",
+      "download_url": "https://peraturan.go.id/files/uu7-2021pjl.pdf",
+      "retrieved_at": "2026-07-07",
+      "sha256": "0237be788b58a54db0fa0ae1417d4bc75365524e1c0c60e457857aa3b2fa43a0",
+      "pages": 122,
+      "text_layer_check": "clean",
+      "public_domain": true,
+      "public_domain_basis": "Peraturan perundang-undangan bukan objek hak cipta (Pasal 42 UU 28/2014)",
+      "notes": "Penjelasan resmi pasal-per-pasal — konteks retrieval tambahan; masuk indeks setelah pipeline stabil di batang tubuh."
     }
   ],
   "backlog": [
