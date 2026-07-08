@@ -69,7 +69,9 @@ lives in UU PPh jo. UU HPP — citation-accuracy eval items must test this.
 harness: fact-group recall@k / MRR / NDCG, per-difficulty breakdown, refuses
 unreviewed items unless --include-unreviewed, results JSON gitignored),
 `evals/datasets/retrieval_v0_draft.json` (32 draft items, ALL
-reviewed_by_human=false — owner review pending, target ≥120).
+reviewed_by_human=false — owner review pending, target ≥120),
+`evals/make_review_sheet.py` (+ generated `*.review.md`: each item beside the
+full text of its chunks so review needs no PDFs; regenerate after edits).
 
 PLANNED (build in this order): 
 `evals/gate_check.py` → `evals/run_generation.py`.
@@ -171,8 +173,9 @@ uv run pytest                          # EXISTS — no network, no paid APIs, no
 uv run ruff check . && uv run ruff format --check .   # EXISTS
 uv run python -m ingestion.run         # EXISTS — corpus PDFs → embedded Qdrant (needs --extra embed)
 uv run python -m rag "pertanyaan"      # EXISTS — tanya baseline; tanpa API key = retrieve-only
+uv run python -m evals.run_retrieval   # EXISTS — retrieval eval lokal ($0); --include-unreviewed utk draft
+uv run python -m evals.make_review_sheet   # EXISTS — regenerasi lembar review dataset
 # PLANNED (add here as they become real):
-# uv run python -m evals.run_retrieval
 # uv run python -m evals.gate_check
 ```
 
