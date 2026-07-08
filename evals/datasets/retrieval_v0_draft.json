@@ -1,7 +1,12 @@
 {
   "name": "lexid-retrieval-eval",
-  "version": "0.1-draft",
+  "version": "0.2-draft",
   "changelog": [
+    {
+      "version": "0.2-draft",
+      "date": "2026-07-08",
+      "note": "Perbaikan dari uji live pemilik: d16 & m03 ambigu (tidak menyebut kebijakan PPS mana — Kebijakan I Pasal 5(7) 6/8/11% harta ≤2015 vs Kebijakan II Pasal 9(3) 12/14/18% harta 2016-2020) → keduanya kini eksplisit; m03 juga salah rujukan chunk (12% ada di bt:0089, bukan konteks pertanyaan lama) → ditulis ulang dalam Kebijakan I (6% bt:0082 vs 11% bt:0083). m02 grup fakta 1 ditambah alternatif pjl:0007 (penjelasan memuat fakta NIK-sebagai-identitas)."
+    },
     {
       "version": "0.1-draft",
       "date": "2026-07-08",
@@ -139,10 +144,10 @@
     },
     {
       "id": "d16",
-      "question": "Dalam program pengungkapan sukarela, berapa tarif PPh final atas harta bersih di dalam negeri yang diinvestasikan pada SBN atau hilirisasi SDA/energi terbarukan?",
+      "question": "Dalam program pengungkapan sukarela untuk harta perolehan 2016-2020, berapa tarif PPh final atas harta bersih di dalam negeri yang diinvestasikan pada SBN atau hilirisasi SDA/energi terbarukan?",
       "difficulty": "direct",
       "relevant_chunk_groups": [["uu-hpp-2021-bt:0089"]],
-      "reference_answer": "12% (dua belas persen) [Bab V UU HPP tentang Program Pengungkapan Sukarela].",
+      "reference_answer": "12% (dua belas persen) [Pasal 9 ayat (3) huruf a UU HPP — Kebijakan II PPS, harta perolehan 2016-2020].",
       "reviewed_by_human": false
     },
     {
@@ -225,7 +230,7 @@
       "question": "Bagaimana NIK digunakan sebagai NPWP dan siapa yang menyediakan data kependudukannya?",
       "difficulty": "multi_hop",
       "relevant_chunk_groups": [
-        ["uu-hpp-2021-bt:0005"],
+        ["uu-hpp-2021-bt:0005", "uu-hpp-2021-pjl:0007"],
         ["uu-hpp-2021-bt:0007"]
       ],
       "reference_answer": "NPWP WP orang pribadi penduduk Indonesia menggunakan NIK [Pasal 2 ayat (1a) UU KUP]; menteri urusan pemerintahan dalam negeri memberikan data kependudukan dan data balikan kepada Menkeu untuk integrasi basis data [Pasal 2 ayat (10) UU KUP jo. UU HPP].",
@@ -233,13 +238,13 @@
     },
     {
       "id": "m03",
-      "question": "Dalam program pengungkapan sukarela, bandingkan tarif untuk harta di dalam negeri yang diinvestasikan pada SBN dengan harta di luar negeri yang tidak dialihkan ke Indonesia.",
+      "question": "Dalam program pengungkapan sukarela untuk harta perolehan 1985-2015, bandingkan tarif untuk harta di dalam negeri yang diinvestasikan pada SBN dengan harta di luar negeri yang tidak dialihkan ke Indonesia.",
       "difficulty": "multi_hop",
       "relevant_chunk_groups": [
-        ["uu-hpp-2021-bt:0089"],
+        ["uu-hpp-2021-bt:0082"],
         ["uu-hpp-2021-bt:0083"]
       ],
-      "reference_answer": "Harta dalam negeri yang diinvestasikan (SBN/hilirisasi/energi terbarukan) dikenai 12%; harta luar negeri yang tidak dialihkan ke dalam negeri dikenai 11% pada kebijakan pengungkapan berbasis harta 1985-2015 [Bab V UU HPP].",
+      "reference_answer": "Untuk harta perolehan 1985-2015 (Kebijakan I): harta dalam negeri yang diinvestasikan pada SBN/hilirisasi dikenai 6% [Pasal 5 ayat (7) huruf a UU HPP]; harta luar negeri yang tidak dialihkan ke dalam negeri dikenai 11% [Pasal 5 ayat (7) huruf e UU HPP].",
       "reviewed_by_human": false
     },
     {

@@ -1,4 +1,4 @@
-# Lembar Review — lexid-retrieval-eval v0.1-draft
+# Lembar Review — lexid-retrieval-eval v0.2-draft
 
 Untuk TIAP item: baca pertanyaan, baca teks chunk di bawahnya, lalu putuskan.
 Kalau lolos → set `reviewed_by_human: true` di JSON dataset.
@@ -320,9 +320,9 @@ penerima zakat yang berhak atau sumbangan keagamaan yang sifatnya wajib bagi pem
 
 ---
 ## d16 · direct · ⬜ BELUM
-**Pertanyaan:** Dalam program pengungkapan sukarela, berapa tarif PPh final atas harta bersih di dalam negeri yang diinvestasikan pada SBN atau hilirisasi SDA/energi terbarukan?
+**Pertanyaan:** Dalam program pengungkapan sukarela untuk harta perolehan 2016-2020, berapa tarif PPh final atas harta bersih di dalam negeri yang diinvestasikan pada SBN atau hilirisasi SDA/energi terbarukan?
 
-**Jawaban referensi:** 12% (dua belas persen) [Bab V UU HPP tentang Program Pengungkapan Sukarela].
+**Jawaban referensi:** 12% (dua belas persen) [Pasal 9 ayat (3) huruf a UU HPP — Kebijakan II PPS, harta perolehan 2016-2020].
 
 **Fakta 1:** cukup salah satu dari `uu-hpp-2021-bt:0089`
 
@@ -530,12 +530,19 @@ Lembaran Negara Republik Indonesia Nomor 6573), dinyatakan masih tetap berlaku s
 
 **Jawaban referensi:** NPWP WP orang pribadi penduduk Indonesia menggunakan NIK [Pasal 2 ayat (1a) UU KUP]; menteri urusan pemerintahan dalam negeri memberikan data kependudukan dan data balikan kepada Menkeu untuk integrasi basis data [Pasal 2 ayat (10) UU KUP jo. UU HPP].
 
-**Fakta 1:** cukup salah satu dari `uu-hpp-2021-bt:0005`
+**Fakta 1:** cukup salah satu dari `uu-hpp-2021-bt:0005` **ATAU** `uu-hpp-2021-pjl:0007`
 
 <details>
 <summary>uu-hpp-2021-bt:0005 (hlm. 6-7)</summary>
 
 49, Tambahan Lembaran Negara Republik Indonesia Nomor 3262) sebagaimana telah beberapa kali diubah terakhir dengan Undang-Undang Nomor 16 Tahun 2009 tentang Penetapan Peraturan Pemerintah Pengganti Undang-Undang Nomor 5 Tahun 2008 tentang Perubahan Keempat atas Undang-Undang Nomor 6 Tahun 1983 tentang Ketentuan Umum dan Tata Cara Perpajakan Menjadi Undang-Undang (Lembaran Negara Republik Indonesia Tahun 2009 Nomor 62, Tambahan Lembaran Negara Republik Indonesia Nomor 4999) diubah sebagai berikut: 1. Di antara ayat (1) dan ayat (2) Pasal 2 disisipkan 1 (satu) ayat, yakni ayat (1a), Pasal 2 ayat (5) dihapus, serta ditambahkan 1 (satu) ayat, yakni ayat (10) sehingga Pasal 2 berbunyi sebagai berikut: Pasal 2 (1) Setiap Wajib Pajak yang telah memenuhi persyaratan subjektif dan objektif sesuai dengan ketentuan peraturan perundang-undangan perpajakan wajib mendaftarkan diri pada kantor Direktorat Jenderal Pajak yang wilayah kerjanya meliputi tempat tinggal atau tempat kedudukan Wajib Pajak dan kepadanya diberikan Nomor Pokok Wajib Pajak. (1a) Nomor Pokok Wajib Pajak sebagaimana dimaksud pada ayat (1) bagi Wajib Pajak orang pribadi yang merupakan penduduk Indonesia menggunakan nomor induk kependudukan. (2) Setiap Wajib Pajak sebagai Pengusaha yang dikenai pajak berdasarkan Undang-Undang Pajak Pertambahan Nilai 1984 dan perubahannya, wajib melaporkan usahanya pada kantor Direktorat Jenderal Pajak yang wilayah kerjanya meliputi tempat tinggal atau tempat kedudukan Pengusaha, dan tempat kegiatan usaha dilakukan untuk dikukuhkan menjadi Pengusaha Kena Pajak. (3) Direktur Jenderal Pajak dapat menetapkan: a. tempat pendaftaran dan/atau tempat pelaporan usaha selain yang ditetapkan pada ayat (1) dan ayat (2); dan/atau b. tempat pendaftaran pada kantor Direktorat Jenderal Pajak yang wilayah kerjanya
+
+</details>
+
+<details>
+<summary>uu-hpp-2021-pjl:0007 (hlm. 7-9)</summary>
+
+dari pemenuhan kewajiban perpajakan sesuai dengan ketentuan peraturan perundang-undangan perpajakan. Hal ini dimaksudkan untuk memberikan kepastian hukum kepada Wajib Pajak maupun Pemerintah berkaitan dengan kewajiban Wajib Pajak untuk mendaftarkan diri dan hak untuk memperoleh Nomor Pokok Wajib Pajak dan/atau dikukuhkan sebagai Pengusaha Kena Pajak, misalnya terhadap Wajib Pajak diterbitkan No. 6736 Nomor Pokok Wajib Pajak secara jabatan pada tahun 2008 dan ternyata Wajib Pajak telah memenuhi persyaratan subjektif dan objektif sesuai dengan ketentuan peraturan perundang-undangan perpajakan terhitung sejak tahun 2005, kewajiban perpajakannya timbul terhitung sejak tahun 2005. Ayat (5) Dihapus. Ayat (6) Cukup jelas. Ayat (7) Cukup jelas. Ayat (8) Cukup jelas. Ayat (9) Cukup jelas. Ayat (10) Penggunaan nomor induk kependudukan sebagai identitas Wajib Pajak orang pribadi memerlukan pengintegrasian basis data kependudukan dengan basis data perpajakan yang digunakan sebagai pembentuk profil Wajib Pajak, serta dapat digunakan oleh Wajib Pajak dalam rangka pelaksanaan hak dan/atau pemenuhan kewajiban perpajakannya. Data kependudukan dan data balikan dari pengguna merupakan data kependudukan dan data balikan dari pengguna sebagaimana diatur dalam peraturan perundang-undangan yang mengatur mengenai administrasi kependudukan. Angka 2 Pasal 8 Ayat (1) Terhadap kekeliruan dalam pengisian Surat Pemberitahuan yang dibuat oleh Wajib Pajak, Wajib Pajak masih berhak untuk melakukan pembetulan atas kemauan sendiri, dengan syarat Direktur Jenderal No. 6736 Pajak belum mulai melakukan tindakan pemeriksaan. Yang dimaksud dengan "mulai melakukan tindakan pemeriksaan" adalah pada saat Surat Pemberitahuan Pemeriksaan Pajak disampaikan kepada Wajib Pajak, wakil, kuasa, pegawai, atau anggota keluarga yang telah dewasa dari Wajib Pajak. Ayat (1a) Yang dimaksud dengan daluwarsa penetapan adalah
 
 </details>
 
@@ -554,16 +561,16 @@ persyaratan subjektif dan/atau objektif sesuai dengan ketentuan peraturan perund
 
 ---
 ## m03 · multi_hop · ⬜ BELUM
-**Pertanyaan:** Dalam program pengungkapan sukarela, bandingkan tarif untuk harta di dalam negeri yang diinvestasikan pada SBN dengan harta di luar negeri yang tidak dialihkan ke Indonesia.
+**Pertanyaan:** Dalam program pengungkapan sukarela untuk harta perolehan 1985-2015, bandingkan tarif untuk harta di dalam negeri yang diinvestasikan pada SBN dengan harta di luar negeri yang tidak dialihkan ke Indonesia.
 
-**Jawaban referensi:** Harta dalam negeri yang diinvestasikan (SBN/hilirisasi/energi terbarukan) dikenai 12%; harta luar negeri yang tidak dialihkan ke dalam negeri dikenai 11% pada kebijakan pengungkapan berbasis harta 1985-2015 [Bab V UU HPP].
+**Jawaban referensi:** Untuk harta perolehan 1985-2015 (Kebijakan I): harta dalam negeri yang diinvestasikan pada SBN/hilirisasi dikenai 6% [Pasal 5 ayat (7) huruf a UU HPP]; harta luar negeri yang tidak dialihkan ke dalam negeri dikenai 11% [Pasal 5 ayat (7) huruf e UU HPP].
 
-**Fakta 1:** cukup salah satu dari `uu-hpp-2021-bt:0089`
+**Fakta 1:** cukup salah satu dari `uu-hpp-2021-bt:0082`
 
 <details>
-<summary>uu-hpp-2021-bt:0089 (hlm. 96-97)</summary>
+<summary>uu-hpp-2021-bt:0082 (hlm. 89-90)</summary>
 
-sedang menjalani hukuman pidana atas tindak pidana di bidang perpajakan. Pasal 9 (1) Tambahan penghasilan sebagaimana dimaksud dalam Pasal 8 ayat (3) dikenai Pajak Penghasilan yang bersifat final. (2) Pajak Penghasilan yang bersifat final sebagaimana dimaksud pada ayat (1) dihitung dengan cara mengalikan tarif dengan dasar pengenaan pajak. (3) Tarif sebagaimana dimaksud pada ayat (2) ditetapkan sebesar: a. 12% (dua belas persen) atas harta bersih yang berada di dalam wilayah Negara Kesatuan Republik Indonesia, dengan ketentuan diinvestasikan pada: 1. kegiatan usaha sektor pengolahan sumber daya alam atau sektor energi terbarukan di dalam wilayah Negara Kesatuan Republik Indonesia; dan/atau 2. surat berharga negara; b. 14% (empat belas persen) atas harta bersih yang berada di dalam wilayah Negara Kesatuan Republik Indonesia dan tidak diinvestasikan pada: 1. kegiatan usaha sektor pengolahan sumber daya alam atau sektor energi terbarukan di dalam wilayah Negara Kesatuan Republik Indonesia; dan/atau 2. surat berharga negara; c. 12% (dua belas persen) atas harta bersih yang berada di luar wilayah Negara Kesatuan Republik Indonesia, dengan ketentuan: 1. dialihkan ke dalam wilayah Negara Kesatuan Republik Indonesia; dan 2. diinvestasikan pada: a) kegiatan usaha sektor pengolahan sumber daya alam atau sektor energi terbarukan di dalam wilayah Negara Kesatuan Republik Indonesia; dan/atau b) surat berharga negara; d. 14% (empat belas persen) atas harta bersih yang berada di luar wilayah Negara Kesatuan Republik Indonesia dengan ketentuan: 1. dialihkan ke dalam wilayah Negara Kesatuan Republik Indonesia; dan 2. tidak diinvestasikan pada: a) kegiatan usaha sektor pengolahan sumber daya alam atau sektor energi terbarukan di dalam
+sampai dengan tanggal 31 Desember 2015. (5) Harta bersih sebagaimana dimaksud pada ayat (1) dianggap sebagai tambahan penghasilan dan dikenai Pajak Penghasilan yang bersifat final. (6) Pajak Penghasilan yang bersifat final sebagaimana dimaksud pada ayat (5) dihitung dengan cara mengalikan tarif dengan dasar pengenaan pajak. (7) Tarif sebagaimana dimaksud pada ayat (6) ditetapkan sebesar: a. 6% (enam persen) atas harta bersih yang berada di dalam wilayah Negara Kesatuan Republik Indonesia, dengan ketentuan diinvestasikan pada: 1. kegiatan usaha sektor pengolahan sumber daya alam atau sektor energi terbarukan di dalam wilayah Negara Kesatuan Republik Indonesia; dan/atau 2. surat berharga negara; b. 8% (delapan persen) atas harta bersih yang berada di dalam wilayah Negara Kesatuan Republik Indonesia dan tidak diinvestasikan pada: 1. kegiatan usaha sektor pengolahan sumber daya alam atau sektor energi terbarukan di dalam wilayah Negara Kesatuan Republik Indonesia; dan/atau 2. surat berharga negara; c. 6% (enam persen) atas harta bersih yang berada di luar wilayah Negara Kesatuan Republik Indonesia, dengan ketentuan: 1. dialihkan ke dalam wilayah Negara Kesatuan Republik Indonesia; dan 2. diinvestasikan pada: a) kegiatan usaha sektor pengolahan sumber daya alam atau sektor energi terbarukan di dalam wilayah Negara Kesatuan Republik Indonesia; dan/atau b) surat berharga negara; d. 8% (delapan persen) atas harta bersih yang berada di luar wilayah Negara Kesatuan Republik Indonesia dengan ketentuan: 1. dialihkan ke dalam wilayah Negara Kesatuan Republik Indonesia; dan 2. tidak diinvestasikan pada: a) kegiatan usaha sektor pengolahan sumber daya alam atau sektor energi terbarukan di dalam wilayah Negara Kesatuan Republik Indonesia; dan/atau b)
 
 </details>
 
