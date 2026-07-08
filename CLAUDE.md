@@ -72,10 +72,14 @@ unreviewed items unless --include-unreviewed, results JSON gitignored),
 4 unanswerable; provenance: model-drafted → model QA → owner human sign-off
 2026-07-08; target still ≥120 → grow via v1.1+),
 `evals/make_review_sheet.py` (+ generated `*.review.md`: each item beside the
-full text of its chunks so review needs no PDFs; regenerate after edits).
+full text of its chunks so review needs no PDFs; regenerate after edits),
+`evals/gate_check.py` + `tests/test_gate_check.py` (retrieval regression gate:
+recall@5 drop >0.02 fails; exit 0/1/2 = pass/fail/precondition-error; refuses
+non-citable or version-mismatched comparisons; warns when eval set too small to
+resolve the gate; ASCII-only output for the owner's cp950 console).
 
 PLANNED (build in this order): 
-`evals/gate_check.py` → `evals/run_generation.py`.
+`evals/run_generation.py` (generation eval: faithfulness/citation via judge LLM).
 When you create a PLANNED file, move it to EXISTS in the same commit.
 
 ## VERIFIED 2026-07-07 (web check) + remaining manual steps
@@ -176,8 +180,9 @@ uv run python -m ingestion.run         # EXISTS — corpus PDFs → embedded Qdr
 uv run python -m rag "pertanyaan"      # EXISTS — tanya baseline; tanpa API key = retrieve-only
 uv run python -m evals.run_retrieval   # EXISTS — retrieval eval lokal ($0); --include-unreviewed utk draft
 uv run python -m evals.make_review_sheet   # EXISTS — regenerasi lembar review dataset
+uv run python -m evals.gate_check --baseline <best.json>   # EXISTS — gerbang regresi retrieval sblm merge
 # PLANNED (add here as they become real):
-# uv run python -m evals.gate_check
+# uv run python -m evals.run_generation
 ```
 
 ## What NOT to Do
