@@ -1,7 +1,12 @@
 {
   "name": "lexid-retrieval-eval",
-  "version": "0.2-draft",
+  "version": "1.0",
   "changelog": [
+    {
+      "version": "1.0",
+      "date": "2026-07-08",
+      "note": "FROZEN. Provenance jujur: item di-draft oleh model dari korpus, lalu lolos pemeriksaan mesin (tiap chunk_id resolve + tiap angka/pasal di jawaban referensi terbukti ada di teks chunk), lalu DISETUJUI pemilik (human sign-off) setelah membaca ringkasan review per-item. Bukan review independen mendalam per PDF — attestasi = persetujuan pemilik atas QA model. 28 item scoreable + 4 unanswerable. Perubahan berikutnya wajib bump versi + baris changelog."
+    },
     {
       "version": "0.2-draft",
       "date": "2026-07-08",
@@ -17,7 +22,10 @@
     "chunker": "fixed-word-window",
     "words_per_chunk": 250,
     "overlap_words": 50,
-    "corpus": ["uu-hpp-2021-bt", "uu-hpp-2021-pjl"],
+    "corpus": [
+      "uu-hpp-2021-bt",
+      "uu-hpp-2021-pjl"
+    ],
     "note": "chunk_id terikat pada config ini — ganti chunking = bump versi mayor dataset"
   },
   "schema_note": "relevant_chunk_groups: tiap grup = satu fakta; isi grup = chunk alternatif yang sama-sama memuat fakta itu (akibat overlap). Recall dihitung per grup (fakta), bukan per chunk. Unanswerable: grup kosong.",
@@ -26,237 +34,356 @@
       "id": "d01",
       "question": "Berapa tarif Pajak Penghasilan untuk Wajib Pajak badan dalam negeri dan bentuk usaha tetap?",
       "difficulty": "direct",
-      "relevant_chunk_groups": [["uu-hpp-2021-bt:0056", "uu-hpp-2021-bt:0057"]],
+      "relevant_chunk_groups": [
+        [
+          "uu-hpp-2021-bt:0056",
+          "uu-hpp-2021-bt:0057"
+        ]
+      ],
       "reference_answer": "22% (dua puluh dua persen), mulai berlaku pada tahun pajak 2022 [Pasal 17 ayat (1) huruf b UU PPh jo. UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "d02",
       "question": "Berapa pengurangan tarif PPh bagi Wajib Pajak badan berbentuk perseroan terbuka yang minimal 40% sahamnya diperdagangkan di bursa efek Indonesia?",
       "difficulty": "direct",
-      "relevant_chunk_groups": [["uu-hpp-2021-bt:0057"]],
+      "relevant_chunk_groups": [
+        [
+          "uu-hpp-2021-bt:0057"
+        ]
+      ],
       "reference_answer": "Tarif 3% (tiga persen) lebih rendah dari tarif umum 22%, dengan syarat tertentu [Pasal 17 ayat (2b) UU PPh jo. UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "d03",
       "question": "Berapa tarif PPh orang pribadi untuk lapisan penghasilan kena pajak sampai dengan Rp60.000.000?",
       "difficulty": "direct",
-      "relevant_chunk_groups": [["uu-hpp-2021-bt:0056"]],
+      "relevant_chunk_groups": [
+        [
+          "uu-hpp-2021-bt:0056"
+        ]
+      ],
       "reference_answer": "5% (lima persen) [Pasal 17 ayat (1) huruf a UU PPh jo. UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "d04",
       "question": "Berapa tarif PPh orang pribadi untuk penghasilan kena pajak di atas Rp5 miliar?",
       "difficulty": "direct",
-      "relevant_chunk_groups": [["uu-hpp-2021-bt:0056", "uu-hpp-2021-bt:0057"]],
+      "relevant_chunk_groups": [
+        [
+          "uu-hpp-2021-bt:0056",
+          "uu-hpp-2021-bt:0057"
+        ]
+      ],
       "reference_answer": "35% (tiga puluh lima persen) [Pasal 17 ayat (1) huruf a UU PPh jo. UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "d05",
       "question": "Berapa besaran Penghasilan Tidak Kena Pajak per tahun untuk diri Wajib Pajak orang pribadi?",
       "difficulty": "direct",
-      "relevant_chunk_groups": [["uu-hpp-2021-bt:0048"]],
+      "relevant_chunk_groups": [
+        [
+          "uu-hpp-2021-bt:0048"
+        ]
+      ],
       "reference_answer": "Paling sedikit Rp54.000.000,00 (lima puluh empat juta rupiah) per tahun [Pasal 7 ayat (1) huruf a UU PPh jo. UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "d06",
       "question": "Berapa tambahan Penghasilan Tidak Kena Pajak untuk Wajib Pajak yang kawin?",
       "difficulty": "direct",
-      "relevant_chunk_groups": [["uu-hpp-2021-bt:0048"]],
+      "relevant_chunk_groups": [
+        [
+          "uu-hpp-2021-bt:0048"
+        ]
+      ],
       "reference_answer": "Rp4.500.000,00 (empat juta lima ratus ribu rupiah) [Pasal 7 ayat (1) huruf b UU PPh jo. UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "d07",
       "question": "Apa yang digunakan sebagai Nomor Pokok Wajib Pajak bagi Wajib Pajak orang pribadi penduduk Indonesia?",
       "difficulty": "direct",
-      "relevant_chunk_groups": [["uu-hpp-2021-bt:0005"]],
+      "relevant_chunk_groups": [
+        [
+          "uu-hpp-2021-bt:0005"
+        ]
+      ],
       "reference_answer": "Nomor induk kependudukan (NIK) [Pasal 2 ayat (1a) UU KUP jo. UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "d08",
       "question": "Berapa tarif PPN yang mulai berlaku 1 April 2022?",
       "difficulty": "direct",
-      "relevant_chunk_groups": [["uu-hpp-2021-bt:0068"]],
+      "relevant_chunk_groups": [
+        [
+          "uu-hpp-2021-bt:0068"
+        ]
+      ],
       "reference_answer": "11% (sebelas persen) [Pasal 7 ayat (1) huruf a UU PPN jo. UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "d09",
       "question": "Kapan paling lambat tarif PPN 12% mulai berlaku?",
       "difficulty": "direct",
-      "relevant_chunk_groups": [["uu-hpp-2021-bt:0068"]],
+      "relevant_chunk_groups": [
+        [
+          "uu-hpp-2021-bt:0068"
+        ]
+      ],
       "reference_answer": "Paling lambat 1 Januari 2025 [Pasal 7 ayat (1) huruf b UU PPN jo. UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "d10",
       "question": "Berapa tarif PPN atas ekspor Barang Kena Pajak Berwujud?",
       "difficulty": "direct",
-      "relevant_chunk_groups": [["uu-hpp-2021-bt:0068"]],
+      "relevant_chunk_groups": [
+        [
+          "uu-hpp-2021-bt:0068"
+        ]
+      ],
       "reference_answer": "0% (nol persen) [Pasal 7 ayat (2) UU PPN jo. UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "d11",
       "question": "Atas apa pajak karbon dikenakan?",
       "difficulty": "direct",
-      "relevant_chunk_groups": [["uu-hpp-2021-bt:0096", "uu-hpp-2021-bt:0097"]],
+      "relevant_chunk_groups": [
+        [
+          "uu-hpp-2021-bt:0096",
+          "uu-hpp-2021-bt:0097"
+        ]
+      ],
       "reference_answer": "Atas emisi karbon yang memberikan dampak negatif bagi lingkungan hidup [Pasal 13 ayat (1) UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "d12",
       "question": "Berapa tarif minimum pajak karbon per kilogram CO2 ekuivalen?",
       "difficulty": "direct",
-      "relevant_chunk_groups": [["uu-hpp-2021-bt:0097", "uu-hpp-2021-bt:0098"]],
+      "relevant_chunk_groups": [
+        [
+          "uu-hpp-2021-bt:0097",
+          "uu-hpp-2021-bt:0098"
+        ]
+      ],
       "reference_answer": "Paling rendah Rp30,00 (tiga puluh rupiah) per kilogram CO2e [Pasal 13 ayat (8)-(9) UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "d13",
       "question": "Sektor apa yang pertama kali dikenakan pajak karbon dan kapan mulai berlaku?",
       "difficulty": "direct",
-      "relevant_chunk_groups": [["uu-hpp-2021-bt:0105"]],
+      "relevant_chunk_groups": [
+        [
+          "uu-hpp-2021-bt:0105"
+        ]
+      ],
       "reference_answer": "Badan di bidang pembangkit listrik tenaga uap batubara, mulai 1 April 2022, tarif Rp30/kg CO2e [Pasal 17 ayat (3) UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "d14",
       "question": "Apakah imbalan dalam bentuk natura dan/atau kenikmatan termasuk objek Pajak Penghasilan?",
       "difficulty": "direct",
-      "relevant_chunk_groups": [["uu-hpp-2021-bt:0036"]],
+      "relevant_chunk_groups": [
+        [
+          "uu-hpp-2021-bt:0036"
+        ]
+      ],
       "reference_answer": "Ya, penggantian atau imbalan dalam bentuk natura dan/atau kenikmatan termasuk penghasilan yang menjadi objek PPh, kecuali ditentukan lain [Pasal 4 ayat (1) huruf a UU PPh jo. UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "d15",
       "question": "Natura jenis apa saja yang dikecualikan dari objek Pajak Penghasilan?",
       "difficulty": "direct",
-      "relevant_chunk_groups": [["uu-hpp-2021-bt:0040"]],
+      "relevant_chunk_groups": [
+        [
+          "uu-hpp-2021-bt:0040"
+        ]
+      ],
       "reference_answer": "Antara lain: makanan/bahan makanan/minuman bagi seluruh pegawai, natura di daerah tertentu, natura karena keharusan pekerjaan, natura dari APBN/APBD, dan natura jenis/batasan tertentu [Pasal 4 ayat (3) huruf d UU PPh jo. UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "d16",
       "question": "Dalam program pengungkapan sukarela untuk harta perolehan 2016-2020, berapa tarif PPh final atas harta bersih di dalam negeri yang diinvestasikan pada SBN atau hilirisasi SDA/energi terbarukan?",
       "difficulty": "direct",
-      "relevant_chunk_groups": [["uu-hpp-2021-bt:0089"]],
+      "relevant_chunk_groups": [
+        [
+          "uu-hpp-2021-bt:0089"
+        ]
+      ],
       "reference_answer": "12% (dua belas persen) [Pasal 9 ayat (3) huruf a UU HPP — Kebijakan II PPS, harta perolehan 2016-2020].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "p01",
       "question": "PT kecil punyaku laba tahun 2023, setor pajak penghasilannya berapa persen ya?",
       "difficulty": "paraphrase",
-      "relevant_chunk_groups": [["uu-hpp-2021-bt:0056", "uu-hpp-2021-bt:0057"]],
+      "relevant_chunk_groups": [
+        [
+          "uu-hpp-2021-bt:0056",
+          "uu-hpp-2021-bt:0057"
+        ]
+      ],
       "reference_answer": "Tarif PPh badan dalam negeri 22% [Pasal 17 ayat (1) huruf b UU PPh jo. UU HPP]. (Catatan: fasilitas Pasal 31E untuk peredaran bruto kecil tidak tercakup korpus ini.)",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "p02",
       "question": "Gajiku setahun cuma 50 juta, kena potongan pajak berapa persen sih?",
       "difficulty": "paraphrase",
-      "relevant_chunk_groups": [["uu-hpp-2021-bt:0056"]],
+      "relevant_chunk_groups": [
+        [
+          "uu-hpp-2021-bt:0056"
+        ]
+      ],
       "reference_answer": "Lapisan penghasilan kena pajak s.d. Rp60 juta dikenai 5% [Pasal 17 ayat (1) huruf a UU PPh jo. UU HPP] — itupun setelah dikurangi PTKP.",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "p03",
       "question": "Batas penghasilan setahun yang bebas dari pajak buat yang masih lajang itu berapa?",
       "difficulty": "paraphrase",
-      "relevant_chunk_groups": [["uu-hpp-2021-bt:0048"]],
+      "relevant_chunk_groups": [
+        [
+          "uu-hpp-2021-bt:0048"
+        ]
+      ],
       "reference_answer": "PTKP diri Wajib Pajak orang pribadi paling sedikit Rp54.000.000 per tahun [Pasal 7 ayat (1) huruf a UU PPh jo. UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "p04",
       "question": "Denger-denger sekarang KTP bisa langsung dipakai jadi nomor pajak, bener nggak?",
       "difficulty": "paraphrase",
-      "relevant_chunk_groups": [["uu-hpp-2021-bt:0005"]],
+      "relevant_chunk_groups": [
+        [
+          "uu-hpp-2021-bt:0005"
+        ]
+      ],
       "reference_answer": "Benar — NPWP bagi WP orang pribadi penduduk Indonesia menggunakan nomor induk kependudukan [Pasal 2 ayat (1a) UU KUP jo. UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "p05",
       "question": "Pajak belanja naik jadi berapa persen dan mulainya kapan?",
       "difficulty": "paraphrase",
-      "relevant_chunk_groups": [["uu-hpp-2021-bt:0068"]],
+      "relevant_chunk_groups": [
+        [
+          "uu-hpp-2021-bt:0068"
+        ]
+      ],
       "reference_answer": "PPN 11% mulai 1 April 2022, lalu 12% paling lambat 1 Januari 2025 [Pasal 7 ayat (1) UU PPN jo. UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "p06",
       "question": "Kantor ngasih aku fasilitas mobil dinas, itu dihitung penghasilan kena pajak nggak?",
       "difficulty": "paraphrase",
-      "relevant_chunk_groups": [["uu-hpp-2021-bt:0036"]],
+      "relevant_chunk_groups": [
+        [
+          "uu-hpp-2021-bt:0036"
+        ]
+      ],
       "reference_answer": "Imbalan dalam bentuk natura/kenikmatan pada prinsipnya termasuk objek PPh, kecuali yang dikecualikan [Pasal 4 ayat (1) huruf a UU PPh jo. UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "p07",
       "question": "PLTU batu bara mulai kapan sih dipajakin emisinya?",
       "difficulty": "paraphrase",
-      "relevant_chunk_groups": [["uu-hpp-2021-bt:0105"]],
+      "relevant_chunk_groups": [
+        [
+          "uu-hpp-2021-bt:0105"
+        ]
+      ],
       "reference_answer": "Pajak karbon pertama dikenakan pada badan pembangkit listrik tenaga uap batubara mulai 1 April 2022 [Pasal 17 ayat (3) UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "p08",
       "question": "Kalau jualan barang ke luar negeri, PPN-nya gimana?",
       "difficulty": "paraphrase",
-      "relevant_chunk_groups": [["uu-hpp-2021-bt:0068"]],
+      "relevant_chunk_groups": [
+        [
+          "uu-hpp-2021-bt:0068"
+        ]
+      ],
       "reference_answer": "Ekspor Barang Kena Pajak dikenai PPN 0% [Pasal 7 ayat (2) UU PPN jo. UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "m01",
       "question": "Kebijakan pajak apa saja dalam UU HPP yang sama-sama mulai berlaku pada 1 April 2022?",
       "difficulty": "multi_hop",
       "relevant_chunk_groups": [
-        ["uu-hpp-2021-bt:0068"],
-        ["uu-hpp-2021-bt:0105"]
+        [
+          "uu-hpp-2021-bt:0068"
+        ],
+        [
+          "uu-hpp-2021-bt:0105"
+        ]
       ],
       "reference_answer": "PPN 11% [Pasal 7 ayat (1) huruf a UU PPN jo. UU HPP] dan pajak karbon untuk PLTU batubara [Pasal 17 ayat (3) UU HPP] sama-sama berlaku mulai 1 April 2022.",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "m02",
       "question": "Bagaimana NIK digunakan sebagai NPWP dan siapa yang menyediakan data kependudukannya?",
       "difficulty": "multi_hop",
       "relevant_chunk_groups": [
-        ["uu-hpp-2021-bt:0005", "uu-hpp-2021-pjl:0007"],
-        ["uu-hpp-2021-bt:0007"]
+        [
+          "uu-hpp-2021-bt:0005",
+          "uu-hpp-2021-pjl:0007"
+        ],
+        [
+          "uu-hpp-2021-bt:0007"
+        ]
       ],
       "reference_answer": "NPWP WP orang pribadi penduduk Indonesia menggunakan NIK [Pasal 2 ayat (1a) UU KUP]; menteri urusan pemerintahan dalam negeri memberikan data kependudukan dan data balikan kepada Menkeu untuk integrasi basis data [Pasal 2 ayat (10) UU KUP jo. UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "m03",
       "question": "Dalam program pengungkapan sukarela untuk harta perolehan 1985-2015, bandingkan tarif untuk harta di dalam negeri yang diinvestasikan pada SBN dengan harta di luar negeri yang tidak dialihkan ke Indonesia.",
       "difficulty": "multi_hop",
       "relevant_chunk_groups": [
-        ["uu-hpp-2021-bt:0082"],
-        ["uu-hpp-2021-bt:0083"]
+        [
+          "uu-hpp-2021-bt:0082"
+        ],
+        [
+          "uu-hpp-2021-bt:0083"
+        ]
       ],
       "reference_answer": "Untuk harta perolehan 1985-2015 (Kebijakan I): harta dalam negeri yang diinvestasikan pada SBN/hilirisasi dikenai 6% [Pasal 5 ayat (7) huruf a UU HPP]; harta luar negeri yang tidak dialihkan ke dalam negeri dikenai 11% [Pasal 5 ayat (7) huruf e UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "m04",
       "question": "Berapa tarif minimum pajak karbon dan sektor apa yang pertama kali dikenakan?",
       "difficulty": "multi_hop",
       "relevant_chunk_groups": [
-        ["uu-hpp-2021-bt:0097", "uu-hpp-2021-bt:0098"],
-        ["uu-hpp-2021-bt:0105"]
+        [
+          "uu-hpp-2021-bt:0097",
+          "uu-hpp-2021-bt:0098"
+        ],
+        [
+          "uu-hpp-2021-bt:0105"
+        ]
       ],
       "reference_answer": "Tarif paling rendah Rp30/kg CO2e [Pasal 13 ayat (9) UU HPP]; pertama dikenakan pada PLTU batubara mulai 1 April 2022 [Pasal 17 ayat (3) UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "u01",
@@ -264,7 +391,7 @@
       "difficulty": "unanswerable",
       "relevant_chunk_groups": [],
       "reference_answer": "Tidak ditemukan di dokumen — pajak kendaraan bermotor diatur UU PDRD/UU HKPD, bukan UU HPP.",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "u02",
@@ -272,7 +399,7 @@
       "difficulty": "unanswerable",
       "relevant_chunk_groups": [],
       "reference_answer": "Tidak ditemukan di dokumen — ketentuan PBB tidak diatur dalam UU HPP.",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "u03",
@@ -280,7 +407,7 @@
       "difficulty": "unanswerable",
       "relevant_chunk_groups": [],
       "reference_answer": "Tidak ditemukan di dokumen — iuran BPJS bukan materi UU HPP.",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "u04",
@@ -288,7 +415,7 @@
       "difficulty": "unanswerable",
       "relevant_chunk_groups": [],
       "reference_answer": "Tidak ditemukan di dokumen — bea masuk diatur UU Kepabeanan, bukan UU HPP.",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     }
   ]
 }

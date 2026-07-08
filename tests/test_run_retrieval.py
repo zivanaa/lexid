@@ -92,14 +92,15 @@ def test_load_items_filters(tmp_path):
     assert [i.id for i in items] == ["i1", "i2"]
 
 
-def test_draft_dataset_is_valid_and_unreviewed():
-    # the committed draft must parse, and must not accidentally count as reviewed
+def test_committed_dataset_is_frozen_and_reviewed():
+    # the committed v1 set must parse, be fully human-approved, and every
+    # answerable item must reference at least one chunk group
     from evals.run_retrieval import DATASET_DEFAULT
 
     data, items, skipped = load_items(DATASET_DEFAULT, include_unreviewed=False)
-    assert items == []  # nothing reviewed yet
-    assert skipped["unreviewed"] > 0
-    _, drafts, _ = load_items(DATASET_DEFAULT, include_unreviewed=True)
-    assert len(drafts) >= 25
-    for it in drafts:
+    assert data["version"] == "1.0"
+    assert skipped["unreviewed"] == 0  # nothing left unreviewed
+    assert skipped["unanswerable"] == 4
+    assert len(items) >= 25  # scoreable (answerable + reviewed) items
+    for it in items:
         assert it.relevant_chunk_groups, f"{it.id}: answerable item without chunk groups"

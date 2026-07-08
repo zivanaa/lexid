@@ -22,7 +22,7 @@ from typing import Literal
 
 from pydantic import BaseModel
 
-DATASET_DEFAULT = Path("evals/datasets/retrieval_v0_draft.json")
+DATASET_DEFAULT = Path("evals/datasets/retrieval_v1.json")
 RESULTS_DIR = Path("evals/results")
 K_VALUES = (3, 5, 10)
 

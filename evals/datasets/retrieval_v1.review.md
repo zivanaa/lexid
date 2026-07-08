@@ -1,4 +1,4 @@
-# Lembar Review — lexid-retrieval-eval v0.2-draft
+# Lembar Review — lexid-retrieval-eval v1.0
 
 Untuk TIAP item: baca pertanyaan, baca teks chunk di bawahnya, lalu putuskan.
 Kalau lolos → set `reviewed_by_human: true` di JSON dataset.
@@ -6,7 +6,7 @@ Kalau salah → perbaiki itemnya dulu + tambah baris changelog, baru set true.
 Item unanswerable: pastikan jawabannya MEMANG tidak ada di korpus.
 
 ---
-## d01 · direct · ⬜ BELUM
+## d01 · direct · ✅ reviewed
 **Pertanyaan:** Berapa tarif Pajak Penghasilan untuk Wajib Pajak badan dalam negeri dan bentuk usaha tetap?
 
 **Jawaban referensi:** 22% (dua puluh dua persen), mulai berlaku pada tahun pajak 2022 [Pasal 17 ayat (1) huruf b UU PPh jo. UU HPP].
@@ -32,7 +32,7 @@ Rp5.000.000.000,00 (lima miliar rupiah) 30% (tiga puluh persen) di atas Rp5.000.
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## d02 · direct · ⬜ BELUM
+## d02 · direct · ✅ reviewed
 **Pertanyaan:** Berapa pengurangan tarif PPh bagi Wajib Pajak badan berbentuk perseroan terbuka yang minimal 40% sahamnya diperdagangkan di bursa efek Indonesia?
 
 **Jawaban referensi:** Tarif 3% (tiga persen) lebih rendah dari tarif umum 22%, dengan syarat tertentu [Pasal 17 ayat (2b) UU PPh jo. UU HPP].
@@ -51,7 +51,7 @@ Rp5.000.000.000,00 (lima miliar rupiah) 30% (tiga puluh persen) di atas Rp5.000.
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## d03 · direct · ⬜ BELUM
+## d03 · direct · ✅ reviewed
 **Pertanyaan:** Berapa tarif PPh orang pribadi untuk lapisan penghasilan kena pajak sampai dengan Rp60.000.000?
 
 **Jawaban referensi:** 5% (lima persen) [Pasal 17 ayat (1) huruf a UU PPh jo. UU HPP].
@@ -70,7 +70,7 @@ kerugian dan jumlah yang diterima sebagai penggantian merupakan penghasilan pada
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## d04 · direct · ⬜ BELUM
+## d04 · direct · ✅ reviewed
 **Pertanyaan:** Berapa tarif PPh orang pribadi untuk penghasilan kena pajak di atas Rp5 miliar?
 
 **Jawaban referensi:** 35% (tiga puluh lima persen) [Pasal 17 ayat (1) huruf a UU PPh jo. UU HPP].
@@ -96,7 +96,7 @@ Rp5.000.000.000,00 (lima miliar rupiah) 30% (tiga puluh persen) di atas Rp5.000.
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## d05 · direct · ⬜ BELUM
+## d05 · direct · ✅ reviewed
 **Pertanyaan:** Berapa besaran Penghasilan Tidak Kena Pajak per tahun untuk diri Wajib Pajak orang pribadi?
 
 **Jawaban referensi:** Paling sedikit Rp54.000.000,00 (lima puluh empat juta rupiah) per tahun [Pasal 7 ayat (1) huruf a UU PPh jo. UU HPP].
@@ -115,7 +115,7 @@ ayat (1) didapat kerugian, kerugian tersebut dikompensasikan dengan penghasilan 
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## d06 · direct · ⬜ BELUM
+## d06 · direct · ✅ reviewed
 **Pertanyaan:** Berapa tambahan Penghasilan Tidak Kena Pajak untuk Wajib Pajak yang kawin?
 
 **Jawaban referensi:** Rp4.500.000,00 (empat juta lima ratus ribu rupiah) [Pasal 7 ayat (1) huruf b UU PPh jo. UU HPP].
@@ -134,7 +134,7 @@ ayat (1) didapat kerugian, kerugian tersebut dikompensasikan dengan penghasilan 
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## d07 · direct · ⬜ BELUM
+## d07 · direct · ✅ reviewed
 **Pertanyaan:** Apa yang digunakan sebagai Nomor Pokok Wajib Pajak bagi Wajib Pajak orang pribadi penduduk Indonesia?
 
 **Jawaban referensi:** Nomor induk kependudukan (NIK) [Pasal 2 ayat (1a) UU KUP jo. UU HPP].
@@ -153,7 +153,7 @@ ayat (1) didapat kerugian, kerugian tersebut dikompensasikan dengan penghasilan 
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## d08 · direct · ⬜ BELUM
+## d08 · direct · ✅ reviewed
 **Pertanyaan:** Berapa tarif PPN yang mulai berlaku 1 April 2022?
 
 **Jawaban referensi:** 11% (sebelas persen) [Pasal 7 ayat (1) huruf a UU PPN jo. UU HPP].
@@ -172,7 +172,7 @@ daerah; o. dihapus; p. dihapus; dan q. jasa boga atau katering, meliputi semua k
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## d09 · direct · ⬜ BELUM
+## d09 · direct · ✅ reviewed
 **Pertanyaan:** Kapan paling lambat tarif PPN 12% mulai berlaku?
 
 **Jawaban referensi:** Paling lambat 1 Januari 2025 [Pasal 7 ayat (1) huruf b UU PPN jo. UU HPP].
@@ -191,7 +191,7 @@ daerah; o. dihapus; p. dihapus; dan q. jasa boga atau katering, meliputi semua k
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## d10 · direct · ⬜ BELUM
+## d10 · direct · ✅ reviewed
 **Pertanyaan:** Berapa tarif PPN atas ekspor Barang Kena Pajak Berwujud?
 
 **Jawaban referensi:** 0% (nol persen) [Pasal 7 ayat (2) UU PPN jo. UU HPP].
@@ -210,7 +210,7 @@ daerah; o. dihapus; p. dihapus; dan q. jasa boga atau katering, meliputi semua k
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## d11 · direct · ⬜ BELUM
+## d11 · direct · ✅ reviewed
 **Pertanyaan:** Atas apa pajak karbon dikenakan?
 
 **Jawaban referensi:** Atas emisi karbon yang memberikan dampak negatif bagi lingkungan hidup [Pasal 13 ayat (1) UU HPP].
@@ -236,7 +236,7 @@ BAB VI PAJAK KARBON Pasal 13 (1) Pajak karbon dikenakan atas emisi karbon yang m
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## d12 · direct · ⬜ BELUM
+## d12 · direct · ✅ reviewed
 **Pertanyaan:** Berapa tarif minimum pajak karbon per kilogram CO2 ekuivalen?
 
 **Jawaban referensi:** Paling rendah Rp30,00 (tiga puluh rupiah) per kilogram CO2e [Pasal 13 ayat (8)-(9) UU HPP].
@@ -262,7 +262,7 @@ kilogram karbon dioksida ekuivalen (CO2e) atau satuan yang setara. (9) Dalam hal
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## d13 · direct · ⬜ BELUM
+## d13 · direct · ✅ reviewed
 **Pertanyaan:** Sektor apa yang pertama kali dikenakan pajak karbon dan kapan mulai berlaku?
 
 **Jawaban referensi:** Badan di bidang pembangkit listrik tenaga uap batubara, mulai 1 April 2022, tarif Rp30/kg CO2e [Pasal 17 ayat (3) UU HPP].
@@ -281,7 +281,7 @@ Lembaran Negara Republik Indonesia Nomor 6573), dinyatakan masih tetap berlaku s
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## d14 · direct · ⬜ BELUM
+## d14 · direct · ✅ reviewed
 **Pertanyaan:** Apakah imbalan dalam bentuk natura dan/atau kenikmatan termasuk objek Pajak Penghasilan?
 
 **Jawaban referensi:** Ya, penggantian atau imbalan dalam bentuk natura dan/atau kenikmatan termasuk penghasilan yang menjadi objek PPh, kecuali ditentukan lain [Pasal 4 ayat (1) huruf a UU PPh jo. UU HPP].
@@ -300,7 +300,7 @@ Lembaran Negara Republik Indonesia Nomor 6573), dinyatakan masih tetap berlaku s
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## d15 · direct · ⬜ BELUM
+## d15 · direct · ✅ reviewed
 **Pertanyaan:** Natura jenis apa saja yang dikecualikan dari objek Pajak Penghasilan?
 
 **Jawaban referensi:** Antara lain: makanan/bahan makanan/minuman bagi seluruh pegawai, natura di daerah tertentu, natura karena keharusan pekerjaan, natura dari APBN/APBD, dan natura jenis/batasan tertentu [Pasal 4 ayat (3) huruf d UU PPh jo. UU HPP].
@@ -319,7 +319,7 @@ penerima zakat yang berhak atau sumbangan keagamaan yang sifatnya wajib bagi pem
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## d16 · direct · ⬜ BELUM
+## d16 · direct · ✅ reviewed
 **Pertanyaan:** Dalam program pengungkapan sukarela untuk harta perolehan 2016-2020, berapa tarif PPh final atas harta bersih di dalam negeri yang diinvestasikan pada SBN atau hilirisasi SDA/energi terbarukan?
 
 **Jawaban referensi:** 12% (dua belas persen) [Pasal 9 ayat (3) huruf a UU HPP — Kebijakan II PPS, harta perolehan 2016-2020].
@@ -338,7 +338,7 @@ sedang menjalani hukuman pidana atas tindak pidana di bidang perpajakan. Pasal 9
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## p01 · paraphrase · ⬜ BELUM
+## p01 · paraphrase · ✅ reviewed
 **Pertanyaan:** PT kecil punyaku laba tahun 2023, setor pajak penghasilannya berapa persen ya?
 
 **Jawaban referensi:** Tarif PPh badan dalam negeri 22% [Pasal 17 ayat (1) huruf b UU PPh jo. UU HPP]. (Catatan: fasilitas Pasal 31E untuk peredaran bruto kecil tidak tercakup korpus ini.)
@@ -364,7 +364,7 @@ Rp5.000.000.000,00 (lima miliar rupiah) 30% (tiga puluh persen) di atas Rp5.000.
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## p02 · paraphrase · ⬜ BELUM
+## p02 · paraphrase · ✅ reviewed
 **Pertanyaan:** Gajiku setahun cuma 50 juta, kena potongan pajak berapa persen sih?
 
 **Jawaban referensi:** Lapisan penghasilan kena pajak s.d. Rp60 juta dikenai 5% [Pasal 17 ayat (1) huruf a UU PPh jo. UU HPP] — itupun setelah dikurangi PTKP.
@@ -383,7 +383,7 @@ kerugian dan jumlah yang diterima sebagai penggantian merupakan penghasilan pada
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## p03 · paraphrase · ⬜ BELUM
+## p03 · paraphrase · ✅ reviewed
 **Pertanyaan:** Batas penghasilan setahun yang bebas dari pajak buat yang masih lajang itu berapa?
 
 **Jawaban referensi:** PTKP diri Wajib Pajak orang pribadi paling sedikit Rp54.000.000 per tahun [Pasal 7 ayat (1) huruf a UU PPh jo. UU HPP].
@@ -402,7 +402,7 @@ ayat (1) didapat kerugian, kerugian tersebut dikompensasikan dengan penghasilan 
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## p04 · paraphrase · ⬜ BELUM
+## p04 · paraphrase · ✅ reviewed
 **Pertanyaan:** Denger-denger sekarang KTP bisa langsung dipakai jadi nomor pajak, bener nggak?
 
 **Jawaban referensi:** Benar — NPWP bagi WP orang pribadi penduduk Indonesia menggunakan nomor induk kependudukan [Pasal 2 ayat (1a) UU KUP jo. UU HPP].
@@ -421,7 +421,7 @@ ayat (1) didapat kerugian, kerugian tersebut dikompensasikan dengan penghasilan 
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## p05 · paraphrase · ⬜ BELUM
+## p05 · paraphrase · ✅ reviewed
 **Pertanyaan:** Pajak belanja naik jadi berapa persen dan mulainya kapan?
 
 **Jawaban referensi:** PPN 11% mulai 1 April 2022, lalu 12% paling lambat 1 Januari 2025 [Pasal 7 ayat (1) UU PPN jo. UU HPP].
@@ -440,7 +440,7 @@ daerah; o. dihapus; p. dihapus; dan q. jasa boga atau katering, meliputi semua k
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## p06 · paraphrase · ⬜ BELUM
+## p06 · paraphrase · ✅ reviewed
 **Pertanyaan:** Kantor ngasih aku fasilitas mobil dinas, itu dihitung penghasilan kena pajak nggak?
 
 **Jawaban referensi:** Imbalan dalam bentuk natura/kenikmatan pada prinsipnya termasuk objek PPh, kecuali yang dikecualikan [Pasal 4 ayat (1) huruf a UU PPh jo. UU HPP].
@@ -459,7 +459,7 @@ daerah; o. dihapus; p. dihapus; dan q. jasa boga atau katering, meliputi semua k
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## p07 · paraphrase · ⬜ BELUM
+## p07 · paraphrase · ✅ reviewed
 **Pertanyaan:** PLTU batu bara mulai kapan sih dipajakin emisinya?
 
 **Jawaban referensi:** Pajak karbon pertama dikenakan pada badan pembangkit listrik tenaga uap batubara mulai 1 April 2022 [Pasal 17 ayat (3) UU HPP].
@@ -478,7 +478,7 @@ Lembaran Negara Republik Indonesia Nomor 6573), dinyatakan masih tetap berlaku s
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## p08 · paraphrase · ⬜ BELUM
+## p08 · paraphrase · ✅ reviewed
 **Pertanyaan:** Kalau jualan barang ke luar negeri, PPN-nya gimana?
 
 **Jawaban referensi:** Ekspor Barang Kena Pajak dikenai PPN 0% [Pasal 7 ayat (2) UU PPN jo. UU HPP].
@@ -497,7 +497,7 @@ daerah; o. dihapus; p. dihapus; dan q. jasa boga atau katering, meliputi semua k
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## m01 · multi_hop · ⬜ BELUM
+## m01 · multi_hop · ✅ reviewed
 **Pertanyaan:** Kebijakan pajak apa saja dalam UU HPP yang sama-sama mulai berlaku pada 1 April 2022?
 
 **Jawaban referensi:** PPN 11% [Pasal 7 ayat (1) huruf a UU PPN jo. UU HPP] dan pajak karbon untuk PLTU batubara [Pasal 17 ayat (3) UU HPP] sama-sama berlaku mulai 1 April 2022.
@@ -525,7 +525,7 @@ Lembaran Negara Republik Indonesia Nomor 6573), dinyatakan masih tetap berlaku s
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## m02 · multi_hop · ⬜ BELUM
+## m02 · multi_hop · ✅ reviewed
 **Pertanyaan:** Bagaimana NIK digunakan sebagai NPWP dan siapa yang menyediakan data kependudukannya?
 
 **Jawaban referensi:** NPWP WP orang pribadi penduduk Indonesia menggunakan NIK [Pasal 2 ayat (1a) UU KUP]; menteri urusan pemerintahan dalam negeri memberikan data kependudukan dan data balikan kepada Menkeu untuk integrasi basis data [Pasal 2 ayat (10) UU KUP jo. UU HPP].
@@ -560,7 +560,7 @@ persyaratan subjektif dan/atau objektif sesuai dengan ketentuan peraturan perund
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## m03 · multi_hop · ⬜ BELUM
+## m03 · multi_hop · ✅ reviewed
 **Pertanyaan:** Dalam program pengungkapan sukarela untuk harta perolehan 1985-2015, bandingkan tarif untuk harta di dalam negeri yang diinvestasikan pada SBN dengan harta di luar negeri yang tidak dialihkan ke Indonesia.
 
 **Jawaban referensi:** Untuk harta perolehan 1985-2015 (Kebijakan I): harta dalam negeri yang diinvestasikan pada SBN/hilirisasi dikenai 6% [Pasal 5 ayat (7) huruf a UU HPP]; harta luar negeri yang tidak dialihkan ke dalam negeri dikenai 11% [Pasal 5 ayat (7) huruf e UU HPP].
@@ -588,7 +588,7 @@ persen) atas harta bersih yang berada di luar wilayah Negara Kesatuan Republik I
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## m04 · multi_hop · ⬜ BELUM
+## m04 · multi_hop · ✅ reviewed
 **Pertanyaan:** Berapa tarif minimum pajak karbon dan sektor apa yang pertama kali dikenakan?
 
 **Jawaban referensi:** Tarif paling rendah Rp30/kg CO2e [Pasal 13 ayat (9) UU HPP]; pertama dikenakan pada PLTU batubara mulai 1 April 2022 [Pasal 17 ayat (3) UU HPP].
@@ -623,7 +623,7 @@ Lembaran Negara Republik Indonesia Nomor 6573), dinyatakan masih tetap berlaku s
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## u01 · unanswerable · ⬜ BELUM
+## u01 · unanswerable · ✅ reviewed
 **Pertanyaan:** Berapa tarif pajak kendaraan bermotor tahunan untuk mobil pribadi?
 
 **Jawaban referensi:** Tidak ditemukan di dokumen — pajak kendaraan bermotor diatur UU PDRD/UU HKPD, bukan UU HPP.
@@ -635,7 +635,7 @@ _(unanswerable — tidak ada chunk; cek bahwa korpus memang tak menjawab)_
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## u02 · unanswerable · ⬜ BELUM
+## u02 · unanswerable · ✅ reviewed
 **Pertanyaan:** Berapa denda keterlambatan pembayaran Pajak Bumi dan Bangunan?
 
 **Jawaban referensi:** Tidak ditemukan di dokumen — ketentuan PBB tidak diatur dalam UU HPP.
@@ -647,7 +647,7 @@ _(unanswerable — tidak ada chunk; cek bahwa korpus memang tak menjawab)_
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## u03 · unanswerable · ⬜ BELUM
+## u03 · unanswerable · ✅ reviewed
 **Pertanyaan:** Apakah UU HPP mengatur besaran iuran BPJS Kesehatan?
 
 **Jawaban referensi:** Tidak ditemukan di dokumen — iuran BPJS bukan materi UU HPP.
@@ -659,7 +659,7 @@ _(unanswerable — tidak ada chunk; cek bahwa korpus memang tak menjawab)_
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## u04 · unanswerable · ⬜ BELUM
+## u04 · unanswerable · ✅ reviewed
 **Pertanyaan:** Berapa tarif bea masuk untuk impor mobil listrik?
 
 **Jawaban referensi:** Tidak ditemukan di dokumen — bea masuk diatur UU Kepabeanan, bukan UU HPP.

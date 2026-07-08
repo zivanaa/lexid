@@ -68,8 +68,9 @@ lives in UU PPh jo. UU HPP — citation-accuracy eval items must test this.
 `evals/run_retrieval.py` + `tests/test_run_retrieval.py` (local retrieval
 harness: fact-group recall@k / MRR / NDCG, per-difficulty breakdown, refuses
 unreviewed items unless --include-unreviewed, results JSON gitignored),
-`evals/datasets/retrieval_v0_draft.json` (32 draft items, ALL
-reviewed_by_human=false — owner review pending, target ≥120),
+`evals/datasets/retrieval_v1.json` (v1.0 FROZEN, 32 items = 28 scoreable +
+4 unanswerable; provenance: model-drafted → model QA → owner human sign-off
+2026-07-08; target still ≥120 → grow via v1.1+),
 `evals/make_review_sheet.py` (+ generated `*.review.md`: each item beside the
 full text of its chunks so review needs no PDFs; regenerate after edits).
 
