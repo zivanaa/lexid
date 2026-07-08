@@ -53,10 +53,14 @@ old points on re-create — clear via empty-filter delete instead),
 `ingestion/run.py` (manifest → parse → chunk → embed → index), tests for all.
 Corpus downloaded 2026-07-07: UU HPP batang tubuh + penjelasan from
 peraturan.go.id (clean text layer; manifest has sha256/pages; BPK copy
-rejected — dirty OCR, see manifest notes).
+rejected — dirty OCR, see manifest notes). Corpus is ingested: 218 chunks in
+embedded Qdrant (`lexid_chunks`, 1024-dim). `rag/retrieve.py` (dense top-k,
+verified live against the index), `rag/generate.py` (prompted grounded answer,
+temperature 0), `rag/pipeline.py` (`ask()`, enforces the disclaimer in code),
+`tests/test_rag.py` — generation NOT yet run live (blocked on API keys,
+manual steps 1–2 below).
 
 PLANNED (build in this order): 
-`rag/retrieve.py` → `rag/generate.py` → `rag/pipeline.py` →
 `evals/run_retrieval.py` → `evals/gate_check.py` → `evals/run_generation.py`.
 When you create a PLANNED file, move it to EXISTS in the same commit.
 
