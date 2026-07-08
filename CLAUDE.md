@@ -58,8 +58,12 @@ embedded Qdrant (`lexid_chunks`, 1024-dim). `rag/retrieve.py` (dense top-k,
 verified live against the index), `rag/generate.py` (prompted grounded answer,
 temperature 0), `rag/pipeline.py` (`ask()`, enforces the disclaimer in code),
 `rag/__main__.py` (CLI: `uv run python -m rag "pertanyaan"`; auto-falls back
-to retrieve-only when no API key), `tests/test_rag.py` — generation NOT yet
-run live (blocked on API keys, manual steps 1–2 below).
+to retrieve-only when no API key), `tests/test_rag.py`. Generation verified
+LIVE 2026-07-08 (owner's Gemini key, gemini-3.1-flash-lite): PPh-badan query →
+correct 22% + Pasal 17(1)b citation + ayat (2b) bonus, disclaimer intact,
+LLM 5.1s / total 17.5s (BGE-M3 load dominates one-shot CLI runs).
+Known eval material: model cites "[uu-hpp-2021-bt, ...]" but legally the rate
+lives in UU PPh jo. UU HPP — citation-accuracy eval items must test this.
 
 PLANNED (build in this order): 
 `evals/run_retrieval.py` → `evals/gate_check.py` → `evals/run_generation.py`.
@@ -97,8 +101,8 @@ Resolved by verification:
   small-turnover facility (Pasal 31E).
 
 Remaining manual steps (owner, ~15 min, all free):
-1. Create Gemini API key at aistudio.google.com (no card) → note YOUR project's
-   limits from the AI Studio rate-limit page into this section.
+1. ~~Create Gemini API key~~ DONE 2026-07-08 — key works, generation verified
+   live (key lives in C:\lexid\.env, not committed).
 2. Create Groq key at console.groq.com (no card) → confirm model id list.
 3. (Optional) OpenRouter key as fallback.
 4. ~~Pick source documents~~ DONE 2026-07-07: UU HPP bt+pjl from
