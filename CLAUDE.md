@@ -57,8 +57,9 @@ rejected — dirty OCR, see manifest notes). Corpus is ingested: 218 chunks in
 embedded Qdrant (`lexid_chunks`, 1024-dim). `rag/retrieve.py` (dense top-k,
 verified live against the index), `rag/generate.py` (prompted grounded answer,
 temperature 0), `rag/pipeline.py` (`ask()`, enforces the disclaimer in code),
-`tests/test_rag.py` — generation NOT yet run live (blocked on API keys,
-manual steps 1–2 below).
+`rag/__main__.py` (CLI: `uv run python -m rag "pertanyaan"`; auto-falls back
+to retrieve-only when no API key), `tests/test_rag.py` — generation NOT yet
+run live (blocked on API keys, manual steps 1–2 below).
 
 PLANNED (build in this order): 
 `evals/run_retrieval.py` → `evals/gate_check.py` → `evals/run_generation.py`.
@@ -159,6 +160,7 @@ uv sync --extra embed                  # when ingestion needs sentence-transform
 uv run pytest                          # EXISTS — no network, no paid APIs, no model downloads
 uv run ruff check . && uv run ruff format --check .   # EXISTS
 uv run python -m ingestion.run         # EXISTS — corpus PDFs → embedded Qdrant (needs --extra embed)
+uv run python -m rag "pertanyaan"      # EXISTS — tanya baseline; tanpa API key = retrieve-only
 # PLANNED (add here as they become real):
 # uv run python -m evals.run_retrieval
 # uv run python -m evals.gate_check

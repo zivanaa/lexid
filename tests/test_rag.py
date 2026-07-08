@@ -153,3 +153,30 @@ def test_ask_keeps_single_disclaimer(monkeypatch):
     )
     resp = ask("tanya?")
     assert resp.answer.count(DISCLAIMER) == 1
+
+
+# --- CLI ---
+
+
+def test_cli_retrieve_only(monkeypatch, capsys):
+    import rag.__main__ as cli
+
+    monkeypatch.setattr(cli, "retrieve", lambda q, k: _retrieved())
+    monkeypatch.setattr("sys.argv", ["rag", "--retrieve-only", "tanya?"])
+    assert cli.main() == 0
+    out = capsys.readouterr().out
+    assert "[doc:0000]" in out and DISCLAIMER in out
+
+
+def test_cli_falls_back_without_api_key(monkeypatch, capsys):
+    import rag.__main__ as cli
+
+    def _no_key(*a, **kw):
+        raise RuntimeError("No API key configured for provider 'gemini'")
+
+    monkeypatch.setattr(cli, "ask", _no_key)
+    monkeypatch.setattr(cli, "retrieve", lambda q, k: _retrieved())
+    monkeypatch.setattr("sys.argv", ["rag", "tanya?"])
+    assert cli.main() == 0
+    out = capsys.readouterr().out
+    assert "retrieve-only" in out and "[doc:0000]" in out and DISCLAIMER in out

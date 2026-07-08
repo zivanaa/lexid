@@ -9,12 +9,28 @@ Status: Phase 1 (RAG foundation). See `CLAUDE.md` for working rules, `docs/` for
 
 ## Quickstart
 ```bash
-uv sync                       # fast — heavy embedding deps are optional
-cp .env.example .env          # keys optional for retrieval-only work
+uv sync --extra embed         # embedding deps incl. torch (~2GB, sekali saja)
+cp .env.example .env          # isi GEMINI_API_KEY utk generation; kosong = retrieve-only
 uv run python -m scripts.healthcheck
 uv run pytest
-# later, when building the ingestion pipeline:
-uv sync --extra embed         # pulls sentence-transformers + torch (~2GB)
 ```
+
+## Menyiapkan korpus (sekali saja)
+
+PDF korpus tidak di-commit (gitignored). Unduh kedua file di
+`data/raw/MANIFEST.json` (field `download_url`) dan simpan ke `data/raw/`
+dengan nama sesuai field `file`, lalu:
+
+```bash
+uv run python -m ingestion.run   # parse → chunk → embed (CPU ~12 mnt) → Qdrant lokal
+```
+
+## Bertanya
+
+```bash
+uv run python -m rag "Berapa tarif PPh badan dalam negeri?"
+uv run python -m rag --retrieve-only "tarif PPh badan"   # tanpa LLM, lihat chunk saja
+```
+Tanpa API key, perintah pertama otomatis jatuh ke mode retrieve-only.
 
 CI: GitHub Actions runs ruff + pytest on every push/PR (lean install, no model downloads).
