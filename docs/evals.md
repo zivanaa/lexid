@@ -3,8 +3,13 @@
 ## Eval set (target ≥120 items [INITIAL], 100% human-reviewed before counting)
 Difficulty mix: ~50% direct, ~25% paraphrase (colloquial, no keyword overlap),
 ~15% multi_hop (needs ≥2 chunks), ~10% unanswerable (tests refusal path).
-Item schema: question, relevant_chunk_ids, reference_answer, difficulty,
-reviewed_by_human. Frozen after review; corrections require a changelog line.
+Item schema: question, relevant_chunk_groups, reference_answer, difficulty,
+reviewed_by_human. Each GROUP = one fact, listing the interchangeable chunks
+that contain it (word-window overlap can put one fact in two adjacent chunks);
+recall counts covered facts so retrieval isn't punished for returning a twin
+chunk. Unanswerable items have empty groups. chunk_ids are bound to the
+chunking config recorded in the dataset header — changing chunking bumps the
+dataset major version. Frozen after review; corrections require a changelog line.
 Versioning: bump minor (v1.1→v1.2) on item fixes, major on composition changes;
 changelog lives at the top of the dataset JSON. Old RESULTS entries stay tagged
 with the version they ran on.

@@ -65,8 +65,14 @@ LLM 5.1s / total 17.5s (BGE-M3 load dominates one-shot CLI runs).
 Known eval material: model cites "[uu-hpp-2021-bt, ...]" but legally the rate
 lives in UU PPh jo. UU HPP — citation-accuracy eval items must test this.
 
+`evals/run_retrieval.py` + `tests/test_run_retrieval.py` (local retrieval
+harness: fact-group recall@k / MRR / NDCG, per-difficulty breakdown, refuses
+unreviewed items unless --include-unreviewed, results JSON gitignored),
+`evals/datasets/retrieval_v0_draft.json` (32 draft items, ALL
+reviewed_by_human=false — owner review pending, target ≥120).
+
 PLANNED (build in this order): 
-`evals/run_retrieval.py` → `evals/gate_check.py` → `evals/run_generation.py`.
+`evals/gate_check.py` → `evals/run_generation.py`.
 When you create a PLANNED file, move it to EXISTS in the same commit.
 
 ## VERIFIED 2026-07-07 (web check) + remaining manual steps
