@@ -14,6 +14,7 @@ class Settings(BaseSettings):
     # Local components
     qdrant_path: str = "./data/qdrant_local"
     embedding_model: str = "BAAI/bge-m3"
+    reranker_model: str = "BAAI/bge-reranker-v2-m3"  # cross-encoder; standard BGE-M3 companion
     embedding_device: str = "cpu"
     log_level: str = "INFO"
 

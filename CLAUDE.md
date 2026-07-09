@@ -58,7 +58,10 @@ embedded Qdrant (`lexid_chunks`, 1024-dim). `rag/retrieve.py` (dense top-k,
 verified live against the index), `rag/generate.py` (prompted grounded answer,
 temperature 0), `rag/pipeline.py` (`ask()`, enforces the disclaimer in code),
 `rag/__main__.py` (CLI: `uv run python -m rag "pertanyaan"`; auto-falls back
-to retrieve-only when no API key), `tests/test_rag.py`. Generation verified
+to retrieve-only when no API key), `tests/test_rag.py`, `rag/rerank.py` +
+`tests/test_rerank.py` (exp-002: cross-encoder BGE-reranker-v2-m3 over dense
+top-N candidates; `evals.run_retrieval --rerank --fetch-n` toggles it, results
+JSON tags `config.retriever`). Generation verified
 LIVE 2026-07-08 (owner's Gemini key, gemini-3.1-flash-lite): PPh-badan query →
 correct 22% + Pasal 17(1)b citation + ayat (2b) bonus, disclaimer intact,
 LLM 5.1s / total 17.5s (BGE-M3 load dominates one-shot CLI runs).

@@ -126,9 +126,30 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="sanity-check drafts; results are marked NOT-CITABLE and must not enter RESULTS.md",
     )
+    ap.add_argument(
+        "--rerank",
+        action="store_true",
+        help="exp-002: dense top-N then cross-encoder rerank (needs --extra embed)",
+    )
+    ap.add_argument(
+        "--fetch-n", type=int, default=20, help="dense candidate pool size for --rerank"
+    )
     args = ap.parse_args(argv)
 
-    from rag.retrieve import retrieve  # deferred: pulls torch
+    if args.rerank:
+        from rag.rerank import retrieve_rerank
+
+        def retriever(q: str) -> list[str]:
+            return [c.chunk_id for c in retrieve_rerank(q, k=max(K_VALUES), fetch_n=args.fetch_n)]
+
+        retriever_label = f"dense+rerank (fetch_n={args.fetch_n})"
+    else:
+        from rag.retrieve import retrieve  # deferred: pulls torch
+
+        def retriever(q: str) -> list[str]:
+            return [c.chunk_id for c in retrieve(q, k=max(K_VALUES))]
+
+        retriever_label = "dense"
 
     data, items, skipped = load_items(args.dataset, args.include_unreviewed)
     if not items:
@@ -141,7 +162,7 @@ def main(argv: list[str] | None = None) -> int:
     rows, latencies = [], []
     for item in items:
         t0 = time.perf_counter()
-        retrieved = [c.chunk_id for c in retrieve(item.question, k=max(K_VALUES))]
+        retrieved = retriever(item.question)
         latencies.append((time.perf_counter() - t0) * 1000)
         rows.append(evaluate_item(retrieved, item))
 
@@ -150,6 +171,7 @@ def main(argv: list[str] | None = None) -> int:
         "dataset": {"name": data["name"], "version": data["version"], "path": str(args.dataset)},
         "config": {
             "commit": git_commit(),
+            "retriever": retriever_label,
             "k_values": list(K_VALUES),
             "timestamp": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         },
@@ -167,7 +189,7 @@ def main(argv: list[str] | None = None) -> int:
     out_path = RESULTS_DIR / f"retrieval_{stamp}.json"
     out_path.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
 
-    print(f"\n=== retrieval eval — {data['name']} v{data['version']} ===")
+    print(f"\n=== retrieval eval — {data['name']} v{data['version']} [{retriever_label}] ===")
     if not result["citable"]:
         print("!!! includes UNREVIEWED items — sanity run only, NOT citable in RESULTS.md !!!")
     print(f"items: {result['overall']['n']} scored | skipped: {skipped}")
