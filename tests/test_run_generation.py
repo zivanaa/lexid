@@ -98,6 +98,48 @@ def test_parse_judge_json_raises_without_json():
         _parse_judge_json("maaf saya tidak bisa menilai")
 
 
+def test_parse_judge_json_skips_reasoning_thought():
+    # Gemma emits <thought> (with a DRAFT json) then the final fenced json;
+    # we must return the FINAL verdict, not the draft inside the thought.
+    from evals.run_generation import _parse_judge_json
+
+    txt = (
+        '<thought>Draft: {"faithfulness": {"score": 0.0}} hmm let me reconsider...</thought>'
+        "```json\n"
+        '{"faithfulness": {"verdict": "supported", "score": 1.0, "reasoning": "ok"}, '
+        '"correctness": {"verdict": "correct", "score": 0.9, "reasoning": "ok"}}\n'
+        "```"
+    )
+    out = _parse_judge_json(txt)
+    assert out["faithfulness"]["score"] == 1.0  # final, not the 0.0 draft in the thought
+    assert out["correctness"]["score"] == 0.9
+
+
+def test_fill_prompt_preserves_literal_json_braces():
+    # the judge prompt shows a JSON example with literal braces; substitution
+    # must fill {question} etc. WITHOUT choking on {"faithfulness": ...}
+    from evals.run_generation import _fill_prompt
+
+    t = 'PERTANYAAN: {question}\nBentuk: {"faithfulness": {"score": 0.0}}'
+    out = _fill_prompt(t, question="tarif?", context="c", answer="a", reference="r")
+    assert "PERTANYAAN: tarif?" in out
+    assert '{"faithfulness": {"score": 0.0}}' in out  # literal braces survive verbatim
+
+
+def test_real_judge_prompt_fills_without_error():
+    # regression: exercise the committed judge prompt end-to-end substitution
+    from pathlib import Path
+
+    from prompts.loader import load
+
+    from evals.run_generation import _fill_prompt
+
+    text, _ = load("generation_judge", directory=Path("evals/judge_prompts"))
+    out = _fill_prompt(text, question="q?", context="ctx", answer="ans", reference="ref")
+    assert "q?" in out and "ctx" in out and "ans" in out and "ref" in out
+    assert "{question}" not in out and "{answer}" not in out
+
+
 # --- end-to-end main with stubs (no network) ---
 
 
@@ -164,3 +206,42 @@ def test_main_smoke_uses_cache_and_scripts(tmp_path, monkeypatch, capsys):
     assert "faithfulness 1.0" in out
     assert "refusal_accuracy (unanswerable) 1.0" in out
     assert judge_calls["n"] == 1  # only the answerable item judged; refusal not judged
+
+
+def test_main_survives_flaky_judge(tmp_path, monkeypatch, capsys):
+    # a transient judge failure must NOT abort the run; the result still writes
+    from evals.run_generation import GenerationEvalError
+
+    ds = {
+        "name": "t",
+        "version": "1.1",
+        "items": [
+            {
+                "id": "d1",
+                "question": "tarif?",
+                "difficulty": "direct",
+                "relevant_chunk_groups": [["uu-hpp-2021-bt:0057"]],
+                "reference_answer": "22%",
+                "reviewed_by_human": True,
+            }
+        ],
+    }
+    dpath = tmp_path / "ds.json"
+    dpath.write_text(json.dumps(ds), encoding="utf-8")
+
+    monkeypatch.setattr(
+        "rag.pipeline.ask", lambda q, retriever, provider: _Resp("22% [uu, Pasal 17].")
+    )
+    monkeypatch.setattr(gen, "CACHE_PATH", tmp_path / "cache.json")
+    monkeypatch.setattr(gen, "RESULTS_DIR", tmp_path / "results")
+
+    def _boom(*a, **kw):
+        raise GenerationEvalError("judge gemini/gemma failed: 500 Internal error")
+
+    monkeypatch.setattr(gen, "judge_generation", _boom)
+
+    rc = gen.main(["--dataset", str(dpath), "--throttle", "0"])
+    assert rc == 0  # did not crash
+    out = capsys.readouterr().out
+    assert "judge errors 1" in out
+    assert "faithfulness None" in out  # nothing judged, but the run completed

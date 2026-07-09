@@ -60,11 +60,34 @@ def answer_hash(answer: str) -> str:
 
 
 def _parse_judge_json(text: str) -> dict:
-    """Extract the JSON object from the judge reply (tolerate ```json fences)."""
-    m = re.search(r"\{.*\}", text, re.DOTALL)
-    if not m:
+    """Extract the verdict JSON from the judge reply.
+
+    Gemma is a reasoning model: it emits <thought>...</thought> (which itself
+    contains a DRAFT JSON) then the final answer in a ```json fence. So: drop the
+    thought, strip fences, and decode the FIRST complete object (raw_decode
+    ignores any trailing text) — a greedy {...} regex would span both JSONs.
+    """
+    if "</thought>" in text:
+        text = text.split("</thought>", 1)[1]
+    text = text.replace("```json", "").replace("```", "")
+    start = text.find("{")
+    if start == -1:
         raise GenerationEvalError(f"judge returned no JSON: {text[:200]!r}")
-    return json.loads(m.group(0))
+    try:
+        obj, _ = json.JSONDecoder().raw_decode(text[start:])
+    except json.JSONDecodeError as e:
+        raise GenerationEvalError(f"judge JSON parse failed ({e}): {text[start : start + 200]!r}")
+    return obj
+
+
+def _fill_prompt(template: str, **fields: str) -> str:
+    """Substitute {name} placeholders WITHOUT str.format — the judge prompt
+    contains literal JSON braces ({"faithfulness": ...}) that str.format would
+    choke on. Replace only the named placeholders; leave all other braces alone."""
+    out = template
+    for name, value in fields.items():
+        out = out.replace("{" + name + "}", value)
+    return out
 
 
 class JudgeCache:
@@ -92,13 +115,15 @@ def judge_generation(
 ) -> tuple[dict, int]:
     """Judge faithfulness + correctness. Returns (verdict_dict, prompt_version)."""
     prompt_text, version = load("generation_judge", directory=JUDGE_PROMPTS_DIR)
-    prompt = prompt_text.format(
-        question=question, context=context, answer=answer, reference=reference
+    prompt = _fill_prompt(
+        prompt_text, question=question, context=context, answer=answer, reference=reference
     )
     model = llm_client.judge_model(provider)
     if not model:
         raise GenerationEvalError(f"provider '{provider}' has no judge model")
-    client = llm_client.client(provider).with_options(timeout=60.0, max_retries=1)
+    # the free Gemini endpoint returns transient 5xx; the OpenAI client retries
+    # 5xx/429 with backoff, so give it a few attempts before surfacing the error
+    client = llm_client.client(provider).with_options(timeout=90.0, max_retries=4)
     try:
         resp = client.chat.completions.create(
             model=model,
@@ -173,6 +198,7 @@ def main(argv: list[str] | None = None) -> int:
     cache = JudgeCache(CACHE_PATH)
     rows: list[dict] = []
     judge_calls = 0
+    judge_errors = 0
     for item in items:
         resp = ask(item.question, retriever=args.retriever, provider=args.provider)
         answer = resp.answer
@@ -187,6 +213,7 @@ def main(argv: list[str] | None = None) -> int:
             "has_citation": has_citation(answer),
             "faithfulness": None,
             "correctness": None,
+            "judge_error": None,
         }
         # judge only substantive answers to answerable items
         if not refused and not expected_refusal:
@@ -196,13 +223,21 @@ def main(argv: list[str] | None = None) -> int:
             if verdict is None:
                 if args.throttle:
                     time.sleep(args.throttle)
-                verdict, version = judge_generation(
-                    item.question, context, answer, item.reference_answer, provider=args.provider
-                )
-                cache.put(item.id, answer, version, verdict)
-                judge_calls += 1
-            row["faithfulness"] = float(verdict["faithfulness"]["score"])
-            row["correctness"] = float(verdict["correctness"]["score"])
+                # a flaky free-tier judge (5xx) must not abort the whole run —
+                # cached successes persist, and we report the failure count
+                try:
+                    verdict, version = judge_generation(
+                        item.question, context, answer, item.reference_answer, args.provider
+                    )
+                    cache.put(item.id, answer, version, verdict)
+                    judge_calls += 1
+                except GenerationEvalError as e:
+                    row["judge_error"] = str(e)[:200]
+                    judge_errors += 1
+                    verdict = None
+            if verdict is not None:
+                row["faithfulness"] = float(verdict["faithfulness"]["score"])
+                row["correctness"] = float(verdict["correctness"]["score"])
         rows.append(row)
 
     agg = aggregate(rows)
@@ -214,6 +249,7 @@ def main(argv: list[str] | None = None) -> int:
             "generator": llm_client.default_model(args.provider),
             "judge": llm_client.judge_model(args.provider),
             "judge_calls_spent": judge_calls,
+            "judge_errors": judge_errors,
             "timestamp": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         },
         "overall": agg,
@@ -227,7 +263,10 @@ def main(argv: list[str] | None = None) -> int:
     print(f"\n=== generation eval — {data['name']} v{data['version']} [{args.retriever}] ===")
     if not result["citable"]:
         print("!!! includes UNREVIEWED items — NOT citable in RESULTS.md !!!")
-    print(f"items {agg['n']} | judged {agg['n_judged']} | judge calls spent {judge_calls}")
+    print(
+        f"items {agg['n']} | judged {agg['n_judged']} | judge calls spent {judge_calls}"
+        f" | judge errors {judge_errors}"
+    )
     print(
         f"faithfulness {agg['faithfulness_mean']} | correctness {agg['correctness_mean']}"
         f" | citation_rate {agg['citation_rate']}"

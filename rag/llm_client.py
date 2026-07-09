@@ -26,8 +26,8 @@ _PROVIDERS = {
     "gemini": {
         "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/",
         "key": lambda: settings.gemini_api_key,
-        "default_model": "gemini-3.1-flash-lite",  # confirm exact API id via ListModels; console shows this tier at 500 RPD
-        "judge_model": "gemma-4-26b",  # confirm exact API id; 1.5K RPD / unlimited TPM in owner console
+        "default_model": "gemini-3.1-flash-lite",  # VERIFIED live via ListModels 2026-07-09; 500 RPD
+        "judge_model": "gemma-4-26b-a4b-it",  # VERIFIED live via ListModels 2026-07-09 (was placeholder gemma-4-26b → 404); 1.5K RPD
     },
     "groq": {
         "base_url": "https://api.groq.com/openai/v1",
