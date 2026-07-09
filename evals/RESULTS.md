@@ -9,6 +9,12 @@ per-difficulty: direct X / paraphrase X / multi_hop X / unanswerable X
 takeaway: <one line>
 ```
 
+## 2026-07-09 — gen-001: first generation eval (hybrid pipeline)
+config: pipeline `ask()` hybrid retriever · generator gemini-3.1-flash-lite · judge gemma-4-26b-a4b-it (different family) | commit: ba6696c | eval set v1.1 (50 answerable + 6 unanswerable)
+SCRIPTED metrics (judge-independent → trustworthy now): citation_rate 1.00 · refusal_accuracy (unanswerable) 1.00 · false_refusal_rate (answerable) 0.12
+JUDGE metrics (Gemma, PROVISIONAL until judge–human calibration ≥0.8 — NOT citable yet): faithfulness 1.00 · correctness 0.97 — over 36 judged (8 items hit transient judge 500s: d06 d15 d16 m02 n05 n08 n09 q10 → coverage gap, a cached re-run fills them)
+takeaway: "grounded or refuse" holds cleanly — faithfulness 1.00 (zero hallucination signal across 36 judged), citation 1.00, and every unanswerable correctly refused (0 missed refusals). The cost of that discipline is false_refusal 0.12: 6/50 answerable items refused because retrieval didn't surface the chunk — p01 (the "laba 2023" archetype), p03, q12, h06, h08 (paraphrase/multi_hop, where hybrid recall@5 ≈ 0.64–0.69) plus n04 (a DIRECT item — worth checking whether hybrid missed bt:0040). So false-refusal is a downstream symptom of the retrieval gap, not a generation flaw. Only 2 correctness misses (p05, p08 = 0.5, paraphrase — owner spot-check). CAVEAT: faithfulness/correctness depend on an UNCALIBRATED judge; next step is re-scoring ≥30 verdicts for agreement. Judge is a reasoning model (~10 s/call) → cache is load-bearing.
+
 ## 2026-07-09 — exp-004: hybrid + rerank stacked (best config so far)
 config: hybrid (BM25+dense RRF, fetch-20) candidate pool → BGE-reranker-v2-m3 cross-encoder → top-k | commit: a44f968 | eval set: v1.1 (50 scoreable + 6 unanswerable)
 recall@3 0.81 · recall@5 0.86 · recall@10 0.96 · MRR 0.748 · NDCG@10 0.791 (1 run; determinism established exp-001/002/003, all std 0) | p50 ~13 s/query | cost/query $0 (fully local)
