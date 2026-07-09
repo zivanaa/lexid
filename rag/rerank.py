@@ -58,3 +58,20 @@ def retrieve_rerank(query: str, k: int = 5, fetch_n: int = 20, client=None) -> l
         raise RerankError(f"fetch_n ({fetch_n}) must be >= k ({k})")
     candidates = retrieve(query, k=fetch_n, client=client)
     return rerank_chunks(query, candidates, top_k=k)
+
+
+def retrieve_hybrid_rerank(
+    query: str, k: int = 5, fetch_n: int = 20, client=None
+) -> list[RetrievedChunk]:
+    """exp-004: hybrid (BM25+dense RRF) candidate pool -> cross-encoder rerank -> top-k.
+
+    Stacks the two winning levers: hybrid pulls keyword matches dense buries into
+    the pool, then the cross-encoder reranks that better pool. lazy hybrid import
+    keeps dense-only/rerank-only paths free of rank-bm25.
+    """
+    if fetch_n < k:
+        raise RerankError(f"fetch_n ({fetch_n}) must be >= k ({k})")
+    from rag.hybrid import retrieve_hybrid
+
+    candidates = retrieve_hybrid(query, k=fetch_n, fetch_n=fetch_n, client=client)
+    return rerank_chunks(query, candidates, top_k=k)

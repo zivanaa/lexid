@@ -63,7 +63,9 @@ to retrieve-only when no API key), `tests/test_rag.py`, `rag/rerank.py` +
 top-N candidates; `evals.run_retrieval --rerank --fetch-n` toggles it, results
 JSON tags `config.retriever`), `rag/hybrid.py` + `tests/test_hybrid.py`
 (exp-003: BM25 via rank-bm25 over Qdrant payloads + dense, fused with RRF;
-`evals.run_retrieval --hybrid` toggles it). Generation verified
+`evals.run_retrieval --hybrid` toggles it), `retrieve_hybrid_rerank` in
+`rag/rerank.py` (exp-004: hybrid RRF pool → cross-encoder rerank;
+`evals.run_retrieval --hybrid-rerank`). Generation verified
 LIVE 2026-07-08 (owner's Gemini key, gemini-3.1-flash-lite): PPh-badan query →
 correct 22% + Pasal 17(1)b citation + ayat (2b) bonus, disclaimer intact,
 LLM 5.1s / total 17.5s (BGE-M3 load dominates one-shot CLI runs).

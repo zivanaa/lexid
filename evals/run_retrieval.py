@@ -137,6 +137,11 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="exp-003: BM25 + dense fused with RRF",
     )
+    mode.add_argument(
+        "--hybrid-rerank",
+        action="store_true",
+        help="exp-004: hybrid RRF pool then cross-encoder rerank (needs --extra embed)",
+    )
     ap.add_argument(
         "--fetch-n", type=int, default=20, help="candidate pool size for --rerank/--hybrid"
     )
@@ -156,6 +161,15 @@ def main(argv: list[str] | None = None) -> int:
             return [c.chunk_id for c in retrieve_hybrid(q, k=max(K_VALUES), fetch_n=args.fetch_n)]
 
         retriever_label = f"hybrid BM25+dense RRF (fetch_n={args.fetch_n})"
+    elif args.hybrid_rerank:
+        from rag.rerank import retrieve_hybrid_rerank
+
+        def retriever(q: str) -> list[str]:
+            return [
+                c.chunk_id for c in retrieve_hybrid_rerank(q, k=max(K_VALUES), fetch_n=args.fetch_n)
+            ]
+
+        retriever_label = f"hybrid+rerank (fetch_n={args.fetch_n})"
     else:
         from rag.retrieve import retrieve  # deferred: pulls torch
 

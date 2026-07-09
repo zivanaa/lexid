@@ -73,3 +73,20 @@ def test_retrieve_rerank_fetches_more_then_cuts(monkeypatch, stub_ce):
 def test_retrieve_rerank_rejects_fetch_smaller_than_k():
     with pytest.raises(RerankError, match="must be >="):
         retrieve_rerank("q", k=10, fetch_n=5)
+
+
+def test_retrieve_hybrid_rerank_reranks_hybrid_pool(monkeypatch, stub_ce):
+    from rag.rerank import retrieve_hybrid_rerank
+
+    pool = _chunks([(c, 0.5) for c in ["a", "b", "c", "d"]])
+    seen = {}
+
+    def _fake_hybrid(query, k, fetch_n, client=None):
+        seen["k"], seen["fetch_n"] = k, fetch_n
+        return pool
+
+    monkeypatch.setattr("rag.hybrid.retrieve_hybrid", _fake_hybrid)
+    stub_ce({f"text {c}": i for i, c in enumerate(["a", "b", "c", "d"])})  # d best
+    out = retrieve_hybrid_rerank("q", k=2, fetch_n=4)
+    assert seen == {"k": 4, "fetch_n": 4}  # hybrid asked for the full pool
+    assert [c.chunk_id for c in out] == ["d", "c"]  # cross-encoder order, top-2
