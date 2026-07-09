@@ -8,4 +8,5 @@ data/processed/
 data/qdrant_local/
 evals/results/*.json
 evals/.judge_cache.json
+evals/calibration/
 *.gguf

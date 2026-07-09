@@ -207,17 +207,23 @@ def main(argv: list[str] | None = None) -> int:
         row = {
             "item_id": item.id,
             "difficulty": item.difficulty,
+            "question": item.question,
+            "reference_answer": item.reference_answer,
+            "answer": answer,
+            "context": None,
             "refused": refused,
             "expected_refusal": expected_refusal,
             "refusal_correct": refused == expected_refusal,
             "has_citation": has_citation(answer),
             "faithfulness": None,
             "correctness": None,
+            "judge_verdict": None,
             "judge_error": None,
         }
         # judge only substantive answers to answerable items
         if not refused and not expected_refusal:
             context = format_context(resp.chunks)
+            row["context"] = context  # persisted so calibration/debug is self-contained
             _, version = load("generation_judge", directory=JUDGE_PROMPTS_DIR)
             verdict = cache.get(item.id, answer, version)
             if verdict is None:
@@ -236,6 +242,7 @@ def main(argv: list[str] | None = None) -> int:
                     judge_errors += 1
                     verdict = None
             if verdict is not None:
+                row["judge_verdict"] = verdict
                 row["faithfulness"] = float(verdict["faithfulness"]["score"])
                 row["correctness"] = float(verdict["correctness"]["score"])
         rows.append(row)

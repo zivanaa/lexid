@@ -91,8 +91,17 @@ resolve the gate; ASCII-only output for the owner's cp950 console),
 scripted refusal-accuracy / false-refusal / citation-presence [no quota] +
 faithfulness/correctness via Gemma judge, JSON, cached by
 (item_id, answer_hash, judge_prompt_version) + throttled; judge prompt
-`evals/judge_prompts/generation_judge.md` v1; NOT yet run live — needs the
-owner's Gemini key, cache gitignored).
+`evals/judge_prompts/generation_judge.md` v1; per_item persists
+answer/context/judge_verdict so calibration is self-contained; cache gitignored.
+RUN LIVE 2026-07-09 (gen-001, see RESULTS.md): scripted metrics trustworthy,
+judge metrics PROVISIONAL until calibration. Live-fix notes: judge id is
+`gemma-4-26b-a4b-it` (reasoning model → emits <thought> then fenced JSON);
+str.format breaks on the prompt's literal JSON braces (use _fill_prompt);
+free endpoint throws transient 5xx → per-item graceful skip + retry),
+`evals/calibrate_judge.py` + `tests/test_calibrate_judge.py` (judge–human
+agreement: builds a BLIND re-scoring sheet hiding the judge verdict, computes
+per-dimension agreement, gates citability at >=0.8; offline, $0; artifacts in
+gitignored evals/calibration/. NOT yet run — needs owner re-scoring).
 
 PLANNED: none — Phase 1 file list complete (RAG + retrieval eval + generation
 eval all EXIST). Remaining Phase 1 work is running the generation eval live +
@@ -199,6 +208,7 @@ uv run python -m evals.run_retrieval   # EXISTS — retrieval eval lokal ($0); -
 uv run python -m evals.make_review_sheet   # EXISTS — regenerasi lembar review dataset
 uv run python -m evals.gate_check --baseline <best.json>   # EXISTS — gerbang regresi retrieval sblm merge
 uv run python -m evals.run_generation --limit 5   # EXISTS — eval generasi (butuh GEMINI_API_KEY; --limit utk hemat kuota)
+uv run python -m evals.calibrate_judge            # EXISTS — buat lembar kalibrasi buta; --score utk hitung agreement
 ```
 
 ## What NOT to Do
