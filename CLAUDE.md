@@ -86,11 +86,18 @@ full text of its chunks so review needs no PDFs; regenerate after edits),
 `evals/gate_check.py` + `tests/test_gate_check.py` (retrieval regression gate:
 recall@5 drop >0.02 fails; exit 0/1/2 = pass/fail/precondition-error; refuses
 non-citable or version-mismatched comparisons; warns when eval set too small to
-resolve the gate; ASCII-only output for the owner's cp950 console).
+resolve the gate; ASCII-only output for the owner's cp950 console),
+`evals/run_generation.py` + `tests/test_run_generation.py` (generation eval:
+scripted refusal-accuracy / false-refusal / citation-presence [no quota] +
+faithfulness/correctness via Gemma judge, JSON, cached by
+(item_id, answer_hash, judge_prompt_version) + throttled; judge prompt
+`evals/judge_prompts/generation_judge.md` v1; NOT yet run live — needs the
+owner's Gemini key, cache gitignored).
 
-PLANNED (build in this order): 
-`evals/run_generation.py` (generation eval: faithfulness/citation via judge LLM).
-When you create a PLANNED file, move it to EXISTS in the same commit.
+PLANNED: none — Phase 1 file list complete (RAG + retrieval eval + generation
+eval all EXIST). Remaining Phase 1 work is running the generation eval live +
+judge–human calibration, not new files. When you add a PLANNED file, move it to
+EXISTS in the same commit.
 
 ## VERIFIED 2026-07-07 (web check) + remaining manual steps
 
@@ -191,8 +198,7 @@ uv run python -m rag "pertanyaan"      # EXISTS — tanya baseline; tanpa API ke
 uv run python -m evals.run_retrieval   # EXISTS — retrieval eval lokal ($0); --include-unreviewed utk draft
 uv run python -m evals.make_review_sheet   # EXISTS — regenerasi lembar review dataset
 uv run python -m evals.gate_check --baseline <best.json>   # EXISTS — gerbang regresi retrieval sblm merge
-# PLANNED (add here as they become real):
-# uv run python -m evals.run_generation
+uv run python -m evals.run_generation --limit 5   # EXISTS — eval generasi (butuh GEMINI_API_KEY; --limit utk hemat kuota)
 ```
 
 ## What NOT to Do

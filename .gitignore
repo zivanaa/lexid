@@ -7,4 +7,5 @@ data/raw/*
 data/processed/
 data/qdrant_local/
 evals/results/*.json
+evals/.judge_cache.json
 *.gguf

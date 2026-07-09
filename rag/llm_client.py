@@ -52,3 +52,9 @@ def client(provider: str) -> OpenAI:
 
 def default_model(provider: str) -> str | None:
     return _PROVIDERS[provider]["default_model"]
+
+
+def judge_model(provider: str) -> str | None:
+    """Judge model for a provider (must be a different family than the generator).
+    Gemini API serves Gemma here — same key, different family from Gemini/Llama."""
+    return _PROVIDERS[provider].get("judge_model")
