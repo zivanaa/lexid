@@ -137,22 +137,53 @@ def test_generate_empty_answer_rejected(monkeypatch):
 
 
 def test_ask_appends_disclaimer_when_missing(monkeypatch):
-    monkeypatch.setattr(rag.pipeline, "retrieve", lambda q, k: _retrieved())
+    monkeypatch.setattr(rag.pipeline, "retrieve_chunks", lambda q, k, retriever: _retrieved())
     monkeypatch.setattr(
         rag.generate.llm_client, "client", lambda p: _FakeClient("Jawaban tanpa disclaimer.")
     )
     resp = ask("tanya?")
     assert resp.answer.endswith(DISCLAIMER)
     assert resp.chunks and resp.total_latency_ms >= 0
+    assert resp.retriever == "hybrid"  # evidence-based default (exp-003)
 
 
 def test_ask_keeps_single_disclaimer(monkeypatch):
-    monkeypatch.setattr(rag.pipeline, "retrieve", lambda q, k: _retrieved())
+    monkeypatch.setattr(rag.pipeline, "retrieve_chunks", lambda q, k, retriever: _retrieved())
     monkeypatch.setattr(
         rag.generate.llm_client, "client", lambda p: _FakeClient(f"Jawaban. {DISCLAIMER}")
     )
     resp = ask("tanya?")
     assert resp.answer.count(DISCLAIMER) == 1
+
+
+def test_ask_dispatches_selected_retriever(monkeypatch):
+    seen = {}
+
+    def _fake(q, k, retriever):
+        seen["retriever"] = retriever
+        return _retrieved()
+
+    monkeypatch.setattr(rag.pipeline, "retrieve_chunks", _fake)
+    monkeypatch.setattr(rag.generate.llm_client, "client", lambda p: _FakeClient("Jawaban."))
+    ask("tanya?", retriever="rerank")
+    assert seen["retriever"] == "rerank"
+
+
+def test_retrieve_chunks_dispatch_dense(monkeypatch):
+    import rag.retrieve
+
+    from rag.pipeline import retrieve_chunks
+
+    monkeypatch.setattr(rag.retrieve, "retrieve", lambda q, k: _retrieved())
+    out = retrieve_chunks("q", k=2, retriever="dense")
+    assert out[0].chunk_id == "doc:0000"
+
+
+def test_retrieve_chunks_unknown_raises():
+    from rag.pipeline import retrieve_chunks
+
+    with pytest.raises(ValueError, match="unknown retriever"):
+        retrieve_chunks("q", retriever="bogus")
 
 
 # --- CLI ---
@@ -161,7 +192,7 @@ def test_ask_keeps_single_disclaimer(monkeypatch):
 def test_cli_retrieve_only(monkeypatch, capsys):
     import rag.__main__ as cli
 
-    monkeypatch.setattr(cli, "retrieve", lambda q, k: _retrieved())
+    monkeypatch.setattr(cli, "retrieve_chunks", lambda q, k, retriever: _retrieved())
     monkeypatch.setattr("sys.argv", ["rag", "--retrieve-only", "tanya?"])
     assert cli.main() == 0
     out = capsys.readouterr().out
@@ -175,7 +206,7 @@ def test_cli_falls_back_without_api_key(monkeypatch, capsys):
         raise RuntimeError("No API key configured for provider 'gemini'")
 
     monkeypatch.setattr(cli, "ask", _no_key)
-    monkeypatch.setattr(cli, "retrieve", lambda q, k: _retrieved())
+    monkeypatch.setattr(cli, "retrieve_chunks", lambda q, k, retriever: _retrieved())
     monkeypatch.setattr("sys.argv", ["rag", "tanya?"])
     assert cli.main() == 0
     out = capsys.readouterr().out

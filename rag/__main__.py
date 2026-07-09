@@ -1,17 +1,18 @@
-"""CLI for the naive RAG baseline.
+"""CLI for the RAG pipeline.
 
     uv run python -m rag "Berapa tarif PPh badan?"          # full RAG (needs API key)
     uv run python -m rag --retrieve-only "tarif PPh badan"  # no LLM, just chunks
+    uv run python -m rag --retriever rerank "..."           # higher quality, ~13 s/query
 
-Falls back to retrieve-only with a notice when no API key is configured,
-so the pipeline is inspectable before the owner creates keys.
+Default retriever is hybrid (exp-003: best quality/latency trade-off). Falls
+back to retrieve-only with a notice when no API key is configured, so the
+pipeline is inspectable before the owner creates keys.
 """
 
 import argparse
 import sys
 
-from rag.pipeline import DISCLAIMER, ask
-from rag.retrieve import retrieve
+from rag.pipeline import DEFAULT_RETRIEVER, DISCLAIMER, ask, retrieve_chunks
 
 
 def _print_chunks(chunks) -> None:
@@ -21,30 +22,35 @@ def _print_chunks(chunks) -> None:
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(prog="rag", description="LexID naive RAG baseline")
+    ap = argparse.ArgumentParser(prog="rag", description="LexID RAG CLI")
     ap.add_argument("question")
     ap.add_argument("--k", type=int, default=5, help="jumlah chunk yang diambil (default 5)")
     ap.add_argument("--provider", default="gemini", choices=["gemini", "groq", "openrouter"])
+    ap.add_argument(
+        "--retriever",
+        default=DEFAULT_RETRIEVER,
+        choices=["dense", "hybrid", "rerank", "hybrid_rerank"],
+        help=f"strategi retrieval (default {DEFAULT_RETRIEVER}; rerank/hybrid_rerank ~13 s/query)",
+    )
     ap.add_argument("--retrieve-only", action="store_true", help="tanpa LLM: tampilkan chunk saja")
     args = ap.parse_args()
 
     if args.retrieve_only:
-        chunks = retrieve(args.question, k=args.k)
-        _print_chunks(chunks)
-        print(f"\n{DISCLAIMER}")
+        _print_chunks(retrieve_chunks(args.question, k=args.k, retriever=args.retriever))
+        print(f"\n[retriever: {args.retriever}]\n{DISCLAIMER}")
         return 0
 
     try:
-        resp = ask(args.question, k=args.k, provider=args.provider)
+        resp = ask(args.question, k=args.k, retriever=args.retriever, provider=args.provider)
     except RuntimeError as e:  # no API key for the provider (rag/llm_client.py)
         print(f"[info] {e}")
         print("[info] jatuh ke mode retrieve-only:\n")
-        _print_chunks(retrieve(args.question, k=args.k))
-        print(f"\n{DISCLAIMER}")
+        _print_chunks(retrieve_chunks(args.question, k=args.k, retriever=args.retriever))
+        print(f"\n[retriever: {args.retriever}]\n{DISCLAIMER}")
         return 0
 
     print(resp.answer)
-    print(f"\nSumber ({len(resp.chunks)} chunk):")
+    print(f"\nSumber ({len(resp.chunks)} chunk, retriever: {resp.retriever}):")
     _print_chunks(resp.chunks)
     print(
         f"\n[{resp.generation.provider}/{resp.generation.model}"

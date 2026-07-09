@@ -56,9 +56,11 @@ peraturan.go.id (clean text layer; manifest has sha256/pages; BPK copy
 rejected — dirty OCR, see manifest notes). Corpus is ingested: 218 chunks in
 embedded Qdrant (`lexid_chunks`, 1024-dim). `rag/retrieve.py` (dense top-k,
 verified live against the index), `rag/generate.py` (prompted grounded answer,
-temperature 0), `rag/pipeline.py` (`ask()`, enforces the disclaimer in code),
-`rag/__main__.py` (CLI: `uv run python -m rag "pertanyaan"`; auto-falls back
-to retrieve-only when no API key), `tests/test_rag.py`, `rag/rerank.py` +
+temperature 0), `rag/pipeline.py` (`ask()`, enforces the disclaimer in code; `retrieve_chunks`
+dispatch — default retriever HYBRID on exp-003 evidence, dense/rerank/
+hybrid_rerank selectable), `rag/__main__.py` (CLI: `uv run python -m rag
+"pertanyaan"`, `--retriever` flag; auto-falls back to retrieve-only when no API
+key), `tests/test_rag.py`, `rag/rerank.py` +
 `tests/test_rerank.py` (exp-002: cross-encoder BGE-reranker-v2-m3 over dense
 top-N candidates; `evals.run_retrieval --rerank --fetch-n` toggles it, results
 JSON tags `config.retriever`), `rag/hybrid.py` + `tests/test_hybrid.py`
