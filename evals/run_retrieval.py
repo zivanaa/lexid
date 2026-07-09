@@ -126,13 +126,19 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="sanity-check drafts; results are marked NOT-CITABLE and must not enter RESULTS.md",
     )
-    ap.add_argument(
+    mode = ap.add_mutually_exclusive_group()
+    mode.add_argument(
         "--rerank",
         action="store_true",
         help="exp-002: dense top-N then cross-encoder rerank (needs --extra embed)",
     )
+    mode.add_argument(
+        "--hybrid",
+        action="store_true",
+        help="exp-003: BM25 + dense fused with RRF",
+    )
     ap.add_argument(
-        "--fetch-n", type=int, default=20, help="dense candidate pool size for --rerank"
+        "--fetch-n", type=int, default=20, help="candidate pool size for --rerank/--hybrid"
     )
     args = ap.parse_args(argv)
 
@@ -143,6 +149,13 @@ def main(argv: list[str] | None = None) -> int:
             return [c.chunk_id for c in retrieve_rerank(q, k=max(K_VALUES), fetch_n=args.fetch_n)]
 
         retriever_label = f"dense+rerank (fetch_n={args.fetch_n})"
+    elif args.hybrid:
+        from rag.hybrid import retrieve_hybrid
+
+        def retriever(q: str) -> list[str]:
+            return [c.chunk_id for c in retrieve_hybrid(q, k=max(K_VALUES), fetch_n=args.fetch_n)]
+
+        retriever_label = f"hybrid BM25+dense RRF (fetch_n={args.fetch_n})"
     else:
         from rag.retrieve import retrieve  # deferred: pulls torch
 
