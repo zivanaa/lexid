@@ -71,9 +71,10 @@ lives in UU PPh jo. UU HPP — citation-accuracy eval items must test this.
 `evals/run_retrieval.py` + `tests/test_run_retrieval.py` (local retrieval
 harness: fact-group recall@k / MRR / NDCG, per-difficulty breakdown, refuses
 unreviewed items unless --include-unreviewed, results JSON gitignored),
-`evals/datasets/retrieval_v1.json` (v1.0 FROZEN, 32 items = 28 scoreable +
-4 unanswerable; provenance: model-drafted → model QA → owner human sign-off
-2026-07-08; target still ≥120 → grow via v1.1+),
+`evals/datasets/retrieval_v1.json` (v1.1 FROZEN, 56 items = 50 scoreable +
+6 unanswerable; provenance: model-drafted → machine QA → owner human sign-off;
+v1.0 was 32 items, grown +24 on 2026-07-09; target still ≥120 → grow via v1.2+.
+n=50 → aggregate resolves the 0.02 gate exactly; per-difficulty still coarse),
 `evals/make_review_sheet.py` (+ generated `*.review.md`: each item beside the
 full text of its chunks so review needs no PDFs; regenerate after edits),
 `evals/gate_check.py` + `tests/test_gate_check.py` (retrieval regression gate:

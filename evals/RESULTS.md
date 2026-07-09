@@ -9,6 +9,16 @@ per-difficulty: direct X / paraphrase X / multi_hop X / unanswerable X
 takeaway: <one line>
 ```
 
+## 2026-07-09 — v1.1 re-baseline (eval set grew 28→50 scoreable; these SUPERSEDE the v1.0 numbers as the reference for exp-003+)
+Why: eval set v1.1 changed the item mix, so v1.0 numbers below are not comparable to future runs. Both current configs re-measured on v1.1. Same code as exp-001/002 (commits 417aa85 / 3af9f50); measured at commit 9787639.
+
+exp-002b — dense+rerank on v1.1: recall@3 0.79 · recall@5 0.84 · recall@10 0.92 · MRR 0.736 · NDCG@10 0.773 (1 run; determinism established exp-002 3× std 0) | p50 ~12.9 s/query | $0
+  vs dense v1.1 (gate PASS): recall@5 +0.15 · recall@3 +0.13 · recall@10 +0.10 · MRR +0.164 · NDCG@10 +0.158
+  per-difficulty (recall@5): direct 0.893 / paraphrase 0.714 / multi_hop 0.875
+exp-001b — dense baseline on v1.1: recall@3 0.66 · recall@5 0.69 · recall@10 0.82 · MRR 0.571 · NDCG@10 0.616 (mean of 3 runs, std-dev 0.000) | p50 ~87 ms/query | $0
+  per-difficulty (recall@5): direct 0.786 / paraphrase 0.50 / multi_hop 0.688
+takeaway: rerank win holds on the bigger set (recall@5 +0.15), and paraphrase 0.50→0.714 (+0.21) is now measured over 14 items (was 8) → more trustworthy. n=50 ⇒ resolution 1/50 = 0.020 = the gate exactly, so gate_check no longer warns (aggregate is resolvable); per-difficulty still coarse (multi_hop n=8, paraphrase n=14). Dense recall@5 0.69 ≈ v1.0's 0.679 → the growth batch didn't skew difficulty. **exp-003 (hybrid BM25) must beat dense v1.1 recall@5 0.69**, and its real target is paraphrase 0.50.
+
 ## 2026-07-09 — exp-002: + cross-encoder rerank (BGE-reranker-v2-m3)
 config: dense fetch top-20 → BGE-reranker-v2-m3 cross-encoder → top-k · same BGE-M3 index/chunks as exp-001 | commit: 3af9f50 | eval set: lexid-retrieval-eval v1.0 (28 scoreable + 4 unanswerable)
 recall@3 0.821 · recall@5 0.821 · recall@10 0.893 · MRR 0.734 · NDCG@10 0.766 (mean of 3 runs, std-dev 0.000 — deterministic like exp-001) | p50 ~13 s/query (12.9–13.8 s) | cost/query $0 (fully local, 0 free-tier requests)
