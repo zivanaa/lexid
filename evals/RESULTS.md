@@ -9,6 +9,13 @@ per-difficulty: direct X / paraphrase X / multi_hop X / unanswerable X
 takeaway: <one line>
 ```
 
+## 2026-07-09 — exp-003: hybrid BM25 + dense (RRF fusion)
+config: BM25 (rank-bm25, over Qdrant payloads) + dense BGE-M3, Reciprocal Rank Fusion rrf_k=60, fetch-20 each → top-k | commit: 16e65f9 | eval set: v1.1 (50 scoreable + 6 unanswerable)
+recall@3 0.69 · recall@5 0.77 · recall@10 0.88 · MRR 0.616 · NDCG@10 0.671 (mean of 3 runs, std-dev 0.000) | p50 ~90 ms/query | cost/query $0 (fully local)
+vs dense v1.1 (gate PASS): recall@5 +0.08 · recall@3 +0.03 · recall@10 +0.06 · MRR +0.045 · NDCG@10 +0.056
+per-difficulty (recall@5): direct 0.786→0.857 / paraphrase 0.50→0.643 / multi_hop 0.688→0.688 / unanswerable n/a
+takeaway: hybrid beats dense (+0.08 recall@5) at ~zero latency cost (90 ms vs 87 ms). My stated hypothesis — "BM25 won't help paraphrase" — was WRONG: paraphrase 0.50→0.643 (+0.14), because colloquial queries still share surface keywords with the legal text ("dividen", "warisan", "zakat"). multi_hop unchanged (0.688) → RRF didn't help the 2-fact items. Ranking vs rerank (both v1.1): rerank recall@5 0.84 > hybrid 0.77, BUT rerank costs ~13 s/query vs hybrid's 90 ms → hybrid is the demo-friendly win; rerank is the quality ceiling. Candidate exp-004: stack them (hybrid fuse → rerank top-N) for best-of-both when a latency budget allows.
+
 ## 2026-07-09 — v1.1 re-baseline (eval set grew 28→50 scoreable; these SUPERSEDE the v1.0 numbers as the reference for exp-003+)
 Why: eval set v1.1 changed the item mix, so v1.0 numbers below are not comparable to future runs. Both current configs re-measured on v1.1. Same code as exp-001/002 (commits 417aa85 / 3af9f50); measured at commit 9787639.
 
