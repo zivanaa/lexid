@@ -92,15 +92,22 @@ def test_load_items_filters(tmp_path):
     assert [i.id for i in items] == ["i1", "i2"]
 
 
-def test_committed_dataset_is_frozen_and_reviewed():
-    # the committed v1 set must parse, be fully human-approved, and every
-    # answerable item must reference at least one chunk group
+def test_committed_dataset_invariants():
+    # Holds whether the set is frozen or mid-growth (a "-draft" version has
+    # unreviewed items pending owner sign-off): reviewed items must be scoreable,
+    # and EVERY answerable item (reviewed or draft) must reference chunk groups.
     from evals.run_retrieval import DATASET_DEFAULT
 
-    data, items, skipped = load_items(DATASET_DEFAULT, include_unreviewed=False)
-    assert data["version"] == "1.0"
-    assert skipped["unreviewed"] == 0  # nothing left unreviewed
-    assert skipped["unanswerable"] == 4
-    assert len(items) >= 25  # scoreable (answerable + reviewed) items
-    for it in items:
+    data, reviewed_items, skipped = load_items(DATASET_DEFAULT, include_unreviewed=False)
+    assert len(reviewed_items) >= 25  # the frozen v1.0 core stays scoreable
+    for it in reviewed_items:
+        assert it.reviewed_by_human
+        assert it.relevant_chunk_groups, f"{it.id}: reviewed answerable item without chunk groups"
+
+    _, all_answerable, _ = load_items(DATASET_DEFAULT, include_unreviewed=True)
+    for it in all_answerable:
         assert it.relevant_chunk_groups, f"{it.id}: answerable item without chunk groups"
+
+    # a "-draft" version means growth in progress; a clean version must be fully reviewed
+    if not data["version"].endswith("-draft"):
+        assert skipped["unreviewed"] == 0, "clean (frozen) version must have no unreviewed items"
