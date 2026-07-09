@@ -1,7 +1,12 @@
 {
   "name": "lexid-retrieval-eval",
-  "version": "1.1-draft",
+  "version": "1.1",
   "changelog": [
+    {
+      "version": "1.1",
+      "date": "2026-07-09",
+      "note": "FROZEN. 24 growth-batch items approved by owner after reading a per-item review digest (same honest provenance as v1.0: model-drafted -> machine QA [chunk_ids resolve + number/keyword present in cited chunk] -> owner sign-off). 56 items total = 50 scoreable + 6 unanswerable. NOTE: item mix changed vs v1.0, so exp-001/002 v1.0 numbers are NOT comparable to runs on v1.1 -> both configs re-baselined on v1.1 (see RESULTS.md)."
+    },
     {
       "version": "1.1-draft",
       "date": "2026-07-09",
@@ -432,7 +437,7 @@
         ]
       ],
       "reference_answer": "Paling tinggi 10% (sepuluh persen) dan bersifat final [Pasal 17 ayat (2c) UU PPh jo. UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "n02",
@@ -444,7 +449,7 @@
         ]
       ],
       "reference_answer": "15% (lima belas persen) [Pasal 17 ayat (1) huruf a UU PPh jo. UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "n03",
@@ -456,7 +461,7 @@
         ]
       ],
       "reference_answer": "25% (dua puluh lima persen) [Pasal 17 ayat (1) huruf a UU PPh jo. UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "n04",
@@ -468,7 +473,7 @@
         ]
       ],
       "reference_answer": "Tidak — warisan dikecualikan dari objek PPh [Pasal 4 ayat (3) huruf b UU PPh jo. UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "n05",
@@ -481,7 +486,7 @@
         ]
       ],
       "reference_answer": "Tidak — bantuan/sumbangan termasuk zakat, infak, dan sedekah yang diterima badan/lembaga amil zakat yang dibentuk atau disahkan pemerintah dikecualikan dari objek pajak [Pasal 4 ayat (3) huruf a UU PPh jo. UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "n06",
@@ -493,7 +498,7 @@
         ]
       ],
       "reference_answer": "5 (lima) tahun setelah saat terutangnya pajak atau berakhirnya Masa/Bagian Tahun/Tahun Pajak [Pasal 13 ayat (1) UU KUP jo. UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "n07",
@@ -505,7 +510,7 @@
         ]
       ],
       "reference_answer": "Orang pribadi atau badan yang membeli barang yang mengandung karbon dan/atau melakukan aktivitas yang menghasilkan emisi karbon [Pasal 13 ayat (5) UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "n08",
@@ -517,7 +522,7 @@
         ]
       ],
       "reference_answer": "Pada saat pembelian barang yang mengandung karbon [Pasal 13 ayat (7) huruf a UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "n09",
@@ -529,7 +534,7 @@
         ]
       ],
       "reference_answer": "Ya — royalti atau imbalan atas penggunaan hak termasuk objek PPh [Pasal 4 ayat (1) huruf h UU PPh jo. UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "n10",
@@ -541,7 +546,7 @@
         ]
       ],
       "reference_answer": "Tidak — makanan dan minuman yang disajikan di hotel, restoran, rumah makan termasuk jenis barang yang tidak dikenai PPN [Pasal 4A ayat (2) UU PPN jo. UU HPP] (objek pajak daerah).",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "n11",
@@ -553,7 +558,7 @@
         ]
       ],
       "reference_answer": "Tidak — jasa keagamaan termasuk jenis jasa yang tidak dikenai PPN [Pasal 4A ayat (3) UU PPN jo. UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "n12",
@@ -566,7 +571,7 @@
         ]
       ],
       "reference_answer": "Sejak 1 Januari 2022 sampai dengan 30 Juni 2022 [Pasal 10 ayat (1) UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "q09",
@@ -578,7 +583,7 @@
         ]
       ],
       "reference_answer": "Warisan dikecualikan dari objek PPh, jadi tidak dikenai [Pasal 4 ayat (3) huruf b UU PPh jo. UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "q10",
@@ -590,7 +595,7 @@
         ]
       ],
       "reference_answer": "Sanksi administrasi berupa bunga dihitung dari tarif bunga per bulan yang ditetapkan oleh Menteri Keuangan [Pasal 8 UU KUP jo. UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "q11",
@@ -602,7 +607,7 @@
         ]
       ],
       "reference_answer": "Paling tinggi 10% dan bersifat final [Pasal 17 ayat (2c) UU PPh jo. UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "q12",
@@ -614,7 +619,7 @@
         ]
       ],
       "reference_answer": "Umumnya tidak — SKPKB hanya dapat diterbitkan dalam 5 tahun sejak terutangnya pajak, sehingga 6 tahun lalu umumnya sudah lewat [Pasal 13 ayat (1) UU KUP jo. UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "q13",
@@ -626,7 +631,7 @@
         ]
       ],
       "reference_answer": "Subjek pajak karbon: orang pribadi/badan yang membeli barang mengandung karbon atau melakukan aktivitas yang menghasilkan emisi [Pasal 13 ayat (5) UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "q14",
@@ -639,7 +644,7 @@
         ]
       ],
       "reference_answer": "Tidak — zakat yang diterima badan/lembaga amil zakat yang disahkan pemerintah dikecualikan dari objek pajak [Pasal 4 ayat (3) huruf a UU PPh jo. UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "h05",
@@ -654,7 +659,7 @@
         ]
       ],
       "reference_answer": "Natura/kenikmatan pada dasarnya termasuk objek PPh [Pasal 4 ayat (1) huruf a]; namun sebagian dikecualikan, mis. makanan/minuman bagi seluruh pegawai dan natura di daerah tertentu [Pasal 4 ayat (3) huruf d UU PPh jo. UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "h06",
@@ -669,7 +674,7 @@
         ]
       ],
       "reference_answer": "Barang: makanan/minuman yang disajikan di hotel/restoran [Pasal 4A ayat (2)]; Jasa: jasa keagamaan [Pasal 4A ayat (3) UU PPN jo. UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "h07",
@@ -684,7 +689,7 @@
         ]
       ],
       "reference_answer": "Penyampaian pengungkapan: paling lambat 30 Juni 2022 [Pasal 10 ayat (1)]; investasi/pengalihan harta ke dalam negeri: paling lambat 30 September 2022 [Pasal 6/11 UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "h08",
@@ -699,7 +704,7 @@
         ]
       ],
       "reference_answer": "SKPKB: dalam 5 tahun sejak terutangnya pajak [Pasal 13 ayat (1)]; pembetulan SPT rugi/lebih bayar: paling lama 2 tahun sebelum daluwarsa penetapan [Pasal 8 ayat (1a) UU KUP jo. UU HPP].",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "x05",
@@ -707,7 +712,7 @@
       "difficulty": "unanswerable",
       "relevant_chunk_groups": [],
       "reference_answer": "Tidak ditemukan di dokumen — tarif final 0,5% UMKM diatur PP 23/2018, bukan UU HPP (UU HPP hanya mengatur batas peredaran bruto tidak kena PPh Rp500 juta bagi WP OP).",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     },
     {
       "id": "x06",
@@ -715,7 +720,7 @@
       "difficulty": "unanswerable",
       "relevant_chunk_groups": [],
       "reference_answer": "Tidak ditemukan di dokumen — bea meterai diatur UU 10/2020 tentang Bea Meterai, bukan UU HPP.",
-      "reviewed_by_human": false
+      "reviewed_by_human": true
     }
   ]
 }

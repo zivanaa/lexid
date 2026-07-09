@@ -1,4 +1,4 @@
-# Lembar Review — lexid-retrieval-eval v1.1-draft
+# Lembar Review — lexid-retrieval-eval v1.1
 
 Untuk TIAP item: baca pertanyaan, baca teks chunk di bawahnya, lalu putuskan.
 Kalau lolos → set `reviewed_by_human: true` di JSON dataset.
@@ -671,7 +671,7 @@ _(unanswerable — tidak ada chunk; cek bahwa korpus memang tak menjawab)_
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## n01 · direct · ⬜ BELUM
+## n01 · direct · ✅ reviewed
 **Pertanyaan:** Berapa tarif PPh final atas dividen yang dibagikan kepada Wajib Pajak orang pribadi dalam negeri?
 
 **Jawaban referensi:** Paling tinggi 10% (sepuluh persen) dan bersifat final [Pasal 17 ayat (2c) UU PPh jo. UU HPP].
@@ -690,7 +690,7 @@ Rp5.000.000.000,00 (lima miliar rupiah) 30% (tiga puluh persen) di atas Rp5.000.
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## n02 · direct · ⬜ BELUM
+## n02 · direct · ✅ reviewed
 **Pertanyaan:** Berapa tarif PPh orang pribadi untuk lapisan penghasilan kena pajak di atas Rp60 juta sampai dengan Rp250 juta?
 
 **Jawaban referensi:** 15% (lima belas persen) [Pasal 17 ayat (1) huruf a UU PPh jo. UU HPP].
@@ -709,7 +709,7 @@ kerugian dan jumlah yang diterima sebagai penggantian merupakan penghasilan pada
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## n03 · direct · ⬜ BELUM
+## n03 · direct · ✅ reviewed
 **Pertanyaan:** Berapa tarif PPh orang pribadi untuk lapisan penghasilan kena pajak di atas Rp250 juta sampai dengan Rp500 juta?
 
 **Jawaban referensi:** 25% (dua puluh lima persen) [Pasal 17 ayat (1) huruf a UU PPh jo. UU HPP].
@@ -728,7 +728,7 @@ kerugian dan jumlah yang diterima sebagai penggantian merupakan penghasilan pada
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## n04 · direct · ⬜ BELUM
+## n04 · direct · ✅ reviewed
 **Pertanyaan:** Apakah warisan termasuk objek Pajak Penghasilan?
 
 **Jawaban referensi:** Tidak — warisan dikecualikan dari objek PPh [Pasal 4 ayat (3) huruf b UU PPh jo. UU HPP].
@@ -747,7 +747,7 @@ penerima zakat yang berhak atau sumbangan keagamaan yang sifatnya wajib bagi pem
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## n05 · direct · ⬜ BELUM
+## n05 · direct · ✅ reviewed
 **Pertanyaan:** Apakah zakat yang diterima oleh badan atau lembaga amil zakat yang disahkan pemerintah merupakan objek pajak?
 
 **Jawaban referensi:** Tidak — bantuan/sumbangan termasuk zakat, infak, dan sedekah yang diterima badan/lembaga amil zakat yang dibentuk atau disahkan pemerintah dikecualikan dari objek pajak [Pasal 4 ayat (3) huruf a UU PPh jo. UU HPP].
@@ -773,7 +773,7 @@ penerima zakat yang berhak atau sumbangan keagamaan yang sifatnya wajib bagi pem
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## n06 · direct · ⬜ BELUM
+## n06 · direct · ✅ reviewed
 **Pertanyaan:** Dalam jangka waktu berapa lama Direktur Jenderal Pajak dapat menerbitkan Surat Ketetapan Pajak Kurang Bayar?
 
 **Jawaban referensi:** 5 (lima) tahun setelah saat terutangnya pajak atau berakhirnya Masa/Bagian Tahun/Tahun Pajak [Pasal 13 ayat (1) UU KUP jo. UU HPP].
@@ -792,7 +792,7 @@ menerima surat ketetapan pajak, Surat Keputusan Keberatan, Surat Keputusan Pembe
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## n07 · direct · ⬜ BELUM
+## n07 · direct · ✅ reviewed
 **Pertanyaan:** Siapa subjek pajak karbon?
 
 **Jawaban referensi:** Orang pribadi atau badan yang membeli barang yang mengandung karbon dan/atau melakukan aktivitas yang menghasilkan emisi karbon [Pasal 13 ayat (5) UU HPP].
@@ -811,7 +811,7 @@ BAB VI PAJAK KARBON Pasal 13 (1) Pajak karbon dikenakan atas emisi karbon yang m
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## n08 · direct · ⬜ BELUM
+## n08 · direct · ✅ reviewed
 **Pertanyaan:** Kapan saat terutang pajak karbon atas pembelian barang yang mengandung karbon?
 
 **Jawaban referensi:** Pada saat pembelian barang yang mengandung karbon [Pasal 13 ayat (7) huruf a UU HPP].
@@ -830,7 +830,7 @@ BAB VI PAJAK KARBON Pasal 13 (1) Pajak karbon dikenakan atas emisi karbon yang m
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## n09 · direct · ⬜ BELUM
+## n09 · direct · ✅ reviewed
 **Pertanyaan:** Apakah royalti atau imbalan atas penggunaan hak termasuk objek Pajak Penghasilan?
 
 **Jawaban referensi:** Ya — royalti atau imbalan atas penggunaan hak termasuk objek PPh [Pasal 4 ayat (1) huruf h UU PPh jo. UU HPP].
@@ -849,7 +849,7 @@ karena pengalihan harta kepada perseroan, persekutuan, dan badan lainnya sebagai
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## n10 · direct · ⬜ BELUM
+## n10 · direct · ✅ reviewed
 **Pertanyaan:** Apakah makanan dan minuman yang disajikan di hotel, restoran, atau rumah makan dikenai PPN?
 
 **Jawaban referensi:** Tidak — makanan dan minuman yang disajikan di hotel, restoran, rumah makan termasuk jenis barang yang tidak dikenai PPN [Pasal 4A ayat (2) UU PPN jo. UU HPP] (objek pajak daerah).
@@ -868,7 +868,7 @@ BAB IV PAJAK PERTAMBAHAN NILAI Pasal 4 Beberapa ketentuan dalam Undang-Undang No
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## n11 · direct · ⬜ BELUM
+## n11 · direct · ✅ reviewed
 **Pertanyaan:** Apakah jasa keagamaan dikenai PPN?
 
 **Jawaban referensi:** Tidak — jasa keagamaan termasuk jenis jasa yang tidak dikenai PPN [Pasal 4A ayat (3) UU PPN jo. UU HPP].
@@ -887,7 +887,7 @@ devisa negara, dan surat berharga. (3) Jenis jasa yang tidak dikenai Pajak Perta
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## n12 · direct · ⬜ BELUM
+## n12 · direct · ✅ reviewed
 **Pertanyaan:** Kapan batas akhir Wajib Pajak menyampaikan surat pemberitahuan pengungkapan harta dalam Program Pengungkapan Sukarela?
 
 **Jawaban referensi:** Sejak 1 Januari 2022 sampai dengan 30 Juni 2022 [Pasal 10 ayat (1) UU HPP].
@@ -913,7 +913,7 @@ surat berharga negara; d. 14% (empat belas persen) atas harta bersih yang berada
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## q09 · paraphrase · ⬜ BELUM
+## q09 · paraphrase · ✅ reviewed
 **Pertanyaan:** Aku dapat warisan rumah dari orang tua, itu kena pajak penghasilan nggak?
 
 **Jawaban referensi:** Warisan dikecualikan dari objek PPh, jadi tidak dikenai [Pasal 4 ayat (3) huruf b UU PPh jo. UU HPP].
@@ -932,7 +932,7 @@ penerima zakat yang berhak atau sumbangan keagamaan yang sifatnya wajib bagi pem
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## q10 · paraphrase · ⬜ BELUM
+## q10 · paraphrase · ✅ reviewed
 **Pertanyaan:** Kalau aku telat bayar pajak, bunga dendanya itu ditentukan siapa sih?
 
 **Jawaban referensi:** Sanksi administrasi berupa bunga dihitung dari tarif bunga per bulan yang ditetapkan oleh Menteri Keuangan [Pasal 8 UU KUP jo. UU HPP].
@@ -951,7 +951,7 @@ sehingga berbunyi sebagai berikut: Pasal 8 (1) Wajib Pajak dengan kemauan sendir
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## q11 · paraphrase · ⬜ BELUM
+## q11 · paraphrase · ✅ reviewed
 **Pertanyaan:** Dividen yang aku terima sebagai orang pribadi dipotong pajak berapa persen?
 
 **Jawaban referensi:** Paling tinggi 10% dan bersifat final [Pasal 17 ayat (2c) UU PPh jo. UU HPP].
@@ -970,7 +970,7 @@ Rp5.000.000.000,00 (lima miliar rupiah) 30% (tiga puluh persen) di atas Rp5.000.
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## q12 · paraphrase · ⬜ BELUM
+## q12 · paraphrase · ✅ reviewed
 **Pertanyaan:** Kantor pajak masih bisa nerbitin ketetapan kurang bayar buat pajakku dari 6 tahun lalu nggak?
 
 **Jawaban referensi:** Umumnya tidak — SKPKB hanya dapat diterbitkan dalam 5 tahun sejak terutangnya pajak, sehingga 6 tahun lalu umumnya sudah lewat [Pasal 13 ayat (1) UU KUP jo. UU HPP].
@@ -989,7 +989,7 @@ menerima surat ketetapan pajak, Surat Keputusan Keberatan, Surat Keputusan Pembe
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## q13 · paraphrase · ⬜ BELUM
+## q13 · paraphrase · ✅ reviewed
 **Pertanyaan:** Aku beli barang yang menghasilkan emisi karbon, siapa yang kena pajak karbonnya?
 
 **Jawaban referensi:** Subjek pajak karbon: orang pribadi/badan yang membeli barang mengandung karbon atau melakukan aktivitas yang menghasilkan emisi [Pasal 13 ayat (5) UU HPP].
@@ -1008,7 +1008,7 @@ BAB VI PAJAK KARBON Pasal 13 (1) Pajak karbon dikenakan atas emisi karbon yang m
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## q14 · paraphrase · ⬜ BELUM
+## q14 · paraphrase · ✅ reviewed
 **Pertanyaan:** Zakat yang masuk ke lembaga amil zakat resmi itu dipajaki nggak?
 
 **Jawaban referensi:** Tidak — zakat yang diterima badan/lembaga amil zakat yang disahkan pemerintah dikecualikan dari objek pajak [Pasal 4 ayat (3) huruf a UU PPh jo. UU HPP].
@@ -1034,7 +1034,7 @@ penerima zakat yang berhak atau sumbangan keagamaan yang sifatnya wajib bagi pem
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## h05 · multi_hop · ⬜ BELUM
+## h05 · multi_hop · ✅ reviewed
 **Pertanyaan:** Bagaimana perlakuan PPh atas natura/kenikmatan: kapan menjadi objek pajak, dan contoh natura apa yang dikecualikan?
 
 **Jawaban referensi:** Natura/kenikmatan pada dasarnya termasuk objek PPh [Pasal 4 ayat (1) huruf a]; namun sebagian dikecualikan, mis. makanan/minuman bagi seluruh pegawai dan natura di daerah tertentu [Pasal 4 ayat (3) huruf d UU PPh jo. UU HPP].
@@ -1062,7 +1062,7 @@ penerima zakat yang berhak atau sumbangan keagamaan yang sifatnya wajib bagi pem
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## h06 · multi_hop · ⬜ BELUM
+## h06 · multi_hop · ✅ reviewed
 **Pertanyaan:** Sebutkan satu contoh barang dan satu contoh jasa yang tidak dikenai PPN.
 
 **Jawaban referensi:** Barang: makanan/minuman yang disajikan di hotel/restoran [Pasal 4A ayat (2)]; Jasa: jasa keagamaan [Pasal 4A ayat (3) UU PPN jo. UU HPP].
@@ -1090,7 +1090,7 @@ devisa negara, dan surat berharga. (3) Jenis jasa yang tidak dikenai Pajak Perta
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## h07 · multi_hop · ⬜ BELUM
+## h07 · multi_hop · ✅ reviewed
 **Pertanyaan:** Dalam Program Pengungkapan Sukarela, kapan batas menyampaikan pengungkapan harta, dan kapan batas menginvestasikan harta ke dalam negeri?
 
 **Jawaban referensi:** Penyampaian pengungkapan: paling lambat 30 Juni 2022 [Pasal 10 ayat (1)]; investasi/pengalihan harta ke dalam negeri: paling lambat 30 September 2022 [Pasal 6/11 UU HPP].
@@ -1118,7 +1118,7 @@ berharga negara, dalam hal Wajib Pajak bermaksud menginvestasikan harta bersih s
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## h08 · multi_hop · ⬜ BELUM
+## h08 · multi_hop · ✅ reviewed
 **Pertanyaan:** Bandingkan dua batas waktu KUP: berapa lama DJP dapat menerbitkan SKPKB, dan sampai kapan Wajib Pajak boleh membetulkan SPT yang menyatakan rugi?
 
 **Jawaban referensi:** SKPKB: dalam 5 tahun sejak terutangnya pajak [Pasal 13 ayat (1)]; pembetulan SPT rugi/lebih bayar: paling lama 2 tahun sebelum daluwarsa penetapan [Pasal 8 ayat (1a) UU KUP jo. UU HPP].
@@ -1146,7 +1146,7 @@ sehingga berbunyi sebagai berikut: Pasal 8 (1) Wajib Pajak dengan kemauan sendir
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## x05 · unanswerable · ⬜ BELUM
+## x05 · unanswerable · ✅ reviewed
 **Pertanyaan:** Berapa tarif PPh final untuk UMKM dengan peredaran bruto tertentu (0,5%)?
 
 **Jawaban referensi:** Tidak ditemukan di dokumen — tarif final 0,5% UMKM diatur PP 23/2018, bukan UU HPP (UU HPP hanya mengatur batas peredaran bruto tidak kena PPh Rp500 juta bagi WP OP).
@@ -1158,7 +1158,7 @@ _(unanswerable — tidak ada chunk; cek bahwa korpus memang tak menjawab)_
 - [ ] jawaban referensi akurat (angka, pasal, ayat)
 
 ---
-## x06 · unanswerable · ⬜ BELUM
+## x06 · unanswerable · ✅ reviewed
 **Pertanyaan:** Berapa tarif bea meterai untuk dokumen?
 
 **Jawaban referensi:** Tidak ditemukan di dokumen — bea meterai diatur UU 10/2020 tentang Bea Meterai, bukan UU HPP.
