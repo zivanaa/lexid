@@ -9,6 +9,14 @@ per-difficulty: direct X / paraphrase X / multi_hop X / unanswerable X
 takeaway: <one line>
 ```
 
+## 2026-07-09 — exp-004: hybrid + rerank stacked (best config so far)
+config: hybrid (BM25+dense RRF, fetch-20) candidate pool → BGE-reranker-v2-m3 cross-encoder → top-k | commit: a44f968 | eval set: v1.1 (50 scoreable + 6 unanswerable)
+recall@3 0.81 · recall@5 0.86 · recall@10 0.96 · MRR 0.748 · NDCG@10 0.791 (1 run; determinism established exp-001/002/003, all std 0) | p50 ~13 s/query | cost/query $0 (fully local)
+vs dense v1.1 (gate PASS): recall@5 +0.17 · recall@10 +0.14 · MRR +0.176 · NDCG@10 +0.175
+vs rerank v1.1 (gate PASS): recall@5 +0.02 · recall@10 +0.04 · MRR +0.012 · NDCG@10 +0.018
+per-difficulty (recall@5): direct 0.893 / paraphrase 0.786 / multi_hop 0.875
+takeaway: best on EVERY metric — recall@10 0.96 (almost all relevant chunks reach top-10) because hybrid feeds the reranker a richer pool than dense alone, and paraphrase 0.786 is the best yet (dense 0.50 → hybrid 0.643 → rerank 0.714 → stack 0.786). Edge over rerank-alone is modest: recall@5 +0.02 = 1 item at the n=50 resolution floor, but recall@10 +0.04 and paraphrase +0.07 are clearer. Latency ~13 s = same as rerank (BM25 adds ~ms; cross-encoder dominates) → if you're paying for rerank, stacking hybrid is a free upgrade. Final retrieval ranking (recall@5): dense 0.69 < hybrid 0.77 < rerank 0.84 < hybrid+rerank 0.86. Demo pick = hybrid (0.77 @ 90 ms); quality pick = hybrid+rerank (0.86 @ 13 s). Retrieval axis well-explored; next Phase-1 piece is generation eval (run_generation.py).
+
 ## 2026-07-09 — exp-003: hybrid BM25 + dense (RRF fusion)
 config: BM25 (rank-bm25, over Qdrant payloads) + dense BGE-M3, Reciprocal Rank Fusion rrf_k=60, fetch-20 each → top-k | commit: 16e65f9 | eval set: v1.1 (50 scoreable + 6 unanswerable)
 recall@3 0.69 · recall@5 0.77 · recall@10 0.88 · MRR 0.616 · NDCG@10 0.671 (mean of 3 runs, std-dev 0.000) | p50 ~90 ms/query | cost/query $0 (fully local)
