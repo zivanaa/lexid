@@ -7,10 +7,11 @@ publishing, or committing of decision text (docs/data-privacy.md).
 Two layers:
   1. STRUCTURED PII — regex-scrubbed here: NIK, phone, plate, `beralamat di ...`
      addresses. Deterministic, testable, no model.
-  2. PERSON NAMES — replaced with role tokens ([NAMA_1], ...) from a list an
-     off-the-shelf multilingual NER produces (chosen later; the NER is the one
-     new dependency). `redact_names` is the seam; institutional names are kept
-     by simply not being in the list.
+  2. PERSON NAMES — `detect_person_names` runs an off-the-shelf Indonesian NER
+     (config.ner_model = cahya/bert-base-indonesian-NER; BIO scheme with B-PER/
+     I-PER, verified) and keeps only PER entities, so ORG/GPE (courts, agencies)
+     survive. Names become stable role tokens [NAMA_1], ... NOT a new pip dep —
+     reuses the transformers stack from `uv sync --extra embed`, CPU-only.
 
 Regexes are deliberately conservative and IMPERFECT by design — the real
 backstop is manual review (docs/data-privacy.md step 3). Everything here is
@@ -18,8 +19,16 @@ developed/tested on SYNTHETIC data only; never on real decision text.
 """
 
 import re
+from functools import lru_cache
 
 from pydantic import BaseModel
+
+from config import settings
+
+
+class AnonymizeError(Exception):
+    """Raised when the NER model cannot be loaded or used."""
+
 
 # --- structured-PII patterns → placeholder tokens ---
 # order matters: NIK (16 digits) before phone so a bare 16-digit run isn't
@@ -84,3 +93,39 @@ def anonymize(text: str, names: list[str] | None = None) -> AnonymizationResult:
     if names:
         text = redact_names(text, names, counts)
     return AnonymizationResult(text=text, redactions=counts)
+
+
+# --- layer 2: person-name NER (off-the-shelf, local CPU) ---
+
+
+@lru_cache(maxsize=1)
+def _ner():
+    # Lazy: importing transformers pulls torch; must not happen for the regex
+    # layer or plain test runs.
+    try:
+        from transformers import pipeline
+    except ImportError as e:
+        raise AnonymizeError("transformers not installed — run: uv sync --extra embed") from e
+    try:
+        return pipeline(
+            "token-classification",
+            model=settings.ner_model,
+            aggregation_strategy="simple",  # merge B-PER/I-PER into whole-name spans
+            device=-1,  # CPU ($0, no GPU)
+        )
+    except Exception as e:
+        raise AnonymizeError(f"cannot load NER model '{settings.ner_model}': {e}") from e
+
+
+def detect_person_names(text: str) -> list[str]:
+    """Distinct PERSON names in the text, via the off-the-shelf NER. ORG/GPE etc.
+    are intentionally NOT returned, so institutions survive anonymization."""
+    ents = _ner()(text)
+    names = [e["word"].strip() for e in ents if e.get("entity_group") == "PER"]
+    return list(dict.fromkeys(n for n in names if n))  # dedupe, keep order
+
+
+def anonymize_auto(text: str) -> AnonymizationResult:
+    """Full gate: detect person names via NER, then scrub names + structured PII.
+    Still imperfect by design — manual review remains the backstop."""
+    return anonymize(text, names=detect_person_names(text))

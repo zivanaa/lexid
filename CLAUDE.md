@@ -112,10 +112,17 @@ judge VALIDATED, gen-001 metrics now CITABLE).
 (auto-regen `ARCHITECTURE.md` Mermaid module-graph on every commit; AST-based,
 no torch; see Conventions).
 
-PLANNED: none — Phase 1 file list complete (RAG + retrieval eval + generation
-eval all EXIST). Remaining Phase 1 work is running the generation eval live +
-judge–human calibration, not new files. When you add a PLANNED file, move it to
-EXISTS in the same commit.
+Phase 1 file list is complete (RAG + retrieval eval + generation eval all EXIST).
+
+PHASE 2 (current) EXISTS: `finetuning/dataset/anonymize.py` +
+`tests/test_anonymize.py` — the blocking anonymization GATE (docs/data-privacy.md).
+Layer 1 regex scrubs NIK/phone/plate/`beralamat di` addresses; layer 2
+`detect_person_names` runs cahya/bert-base-indonesian-NER (PER entities only →
+[NAMA_i] tokens; ORG survives), `anonymize_auto` chains both. No new pip dep
+(reuses transformers via --extra embed), CPU. Tested on SYNTHETIC data only.
+PHASE 2 PLANNED (in order): corpus scraper (Direktori Putusan MA, polite) →
+label (distill + human review) → frozen splits → QLoRA train (Kaggle/Colab).
+When you add a PLANNED file, move it to EXISTS in the same commit.
 
 ## VERIFIED 2026-07-07 (web check) + remaining manual steps
 

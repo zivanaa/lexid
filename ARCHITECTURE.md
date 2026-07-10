@@ -53,6 +53,7 @@ graph LR
   evals_run_retrieval --> rag_hybrid
   evals_run_retrieval --> rag_rerank
   evals_run_retrieval --> rag_retrieve
+  finetuning_dataset_anonymize --> config
   ingestion_chunk --> ingestion_parse
   ingestion_embed --> config
   ingestion_index --> config

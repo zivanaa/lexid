@@ -1,6 +1,12 @@
 """finetuning.dataset.anonymize tests — SYNTHETIC PII only, never real data."""
 
-from finetuning.dataset.anonymize import anonymize, redact_names
+import finetuning.dataset.anonymize as anon
+from finetuning.dataset.anonymize import (
+    anonymize,
+    anonymize_auto,
+    detect_person_names,
+    redact_names,
+)
 
 
 def test_scrubs_nik():
@@ -54,3 +60,37 @@ def test_report_counts_and_clean_text_untouched():
     # case number and rupiah amount are NOT PII → must survive untouched
     assert out.text == clean
     assert out.redactions == {}
+
+
+# --- layer 2: NER name detection (pipeline stubbed; no model download) ---
+
+
+def _stub_ner(entities):
+    class _Pipe:
+        def __call__(self, text):
+            return entities
+
+    return lambda: _Pipe()
+
+
+def test_detect_person_names_keeps_only_PER(monkeypatch):
+    monkeypatch.setattr(
+        anon,
+        "_ner",
+        _stub_ner(
+            [
+                {"entity_group": "PER", "word": "Budi Santoso"},
+                {"entity_group": "ORG", "word": "Pengadilan Negeri Jakarta"},
+                {"entity_group": "PER", "word": "Siti Aminah"},
+                {"entity_group": "PER", "word": "Budi Santoso"},  # duplicate
+            ]
+        ),
+    )
+    assert detect_person_names("...") == ["Budi Santoso", "Siti Aminah"]  # deduped, PER only
+
+
+def test_anonymize_auto_scrubs_names_and_pii(monkeypatch):
+    monkeypatch.setattr(anon, "_ner", _stub_ner([{"entity_group": "PER", "word": "Budi Santoso"}]))
+    out = anonymize_auto("Budi Santoso, NIK 3327012345678901, hadir di persidangan.")
+    assert "Budi Santoso" not in out.text and "3327012345678901" not in out.text
+    assert "[NAMA_1]" in out.text and "[NIK]" in out.text
