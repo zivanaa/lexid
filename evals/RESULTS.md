@@ -9,6 +9,11 @@ per-difficulty: direct X / paraphrase X / multi_hop X / unanswerable X
 takeaway: <one line>
 ```
 
+## 2026-07-09 — cal-001: judge calibration PASSED → gen-001 judge metrics now citable
+method: owner blind-rescored all 42 judged items (judge verdict hidden), agreement vs gemma-4-26b-a4b-it computed by evals/calibrate_judge | commit: 4de1461 | eval set v1.1
+judge–human agreement: faithfulness 0.952 · correctness 0.929 · overall 0.940 (both dims ≥ 0.8 target)
+takeaway: the judge is TRUSTWORTHY, so gen-001's faithfulness 0.988 / correctness 0.952 are now CITABLE (no longer provisional). Agreement is high but NOT 1.0 (0.95/0.93) — a healthy sign the human scrutinized rather than rubber-stamped; the ~5–7% disagreement is the honest error bar on the judge. 42 items scored (>30 target). Re-run of calibration required only if the judge prompt version changes.
+
 ## 2026-07-09 — gen-001: first generation eval (hybrid pipeline)
 config: pipeline `ask()` hybrid retriever · generator gemini-3.1-flash-lite · judge gemma-4-26b-a4b-it (different family) | commit: ba6696c | eval set v1.1 (50 answerable + 6 unanswerable)
 SCRIPTED metrics (judge-independent → trustworthy now): citation_rate 1.00 · refusal_accuracy (unanswerable) 1.00 · false_refusal_rate (answerable) 0.12
