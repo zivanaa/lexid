@@ -1,0 +1,9 @@
+#!/bin/sh
+# Regenerate ARCHITECTURE.md on every commit and stage it.
+# Non-blocking: if generation fails (e.g. uv unavailable), commit proceeds.
+# Install once: git config core.hooksPath .githooks
+uv run python scripts/gen_architecture.py || {
+    echo "[pre-commit] architecture gen failed; committing without it" >&2
+    exit 0
+}
+git add ARCHITECTURE.md

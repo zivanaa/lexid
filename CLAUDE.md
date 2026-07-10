@@ -104,6 +104,9 @@ per-dimension agreement, gates citability at >=0.8; offline, $0; artifacts in
 gitignored evals/calibration/. RUN 2026-07-09 (cal-001): owner blind-scored all
 42 items → agreement faithfulness 0.95 / correctness 0.93 / overall 0.94 →
 judge VALIDATED, gen-001 metrics now CITABLE).
+`scripts/gen_architecture.py` + `tests/test_gen_architecture.py` + `.githooks/pre-commit`
+(auto-regen `ARCHITECTURE.md` Mermaid module-graph on every commit; AST-based,
+no torch; see Conventions).
 
 PLANNED: none — Phase 1 file list complete (RAG + retrieval eval + generation
 eval all EXIST). Remaining Phase 1 work is running the generation eval live +
@@ -188,6 +191,14 @@ trusting judge numbers.
   learning project; the owner must be able to defend every choice in interviews.
 - Errors: typed exceptions per module; external calls get timeout + 1 retry with
   backoff. Logging: structured, log chunk_ids never full document text, never keys.
+- **Architecture diagram auto-regenerates on every commit.** A pre-commit hook
+  (`.githooks/pre-commit`) runs `scripts/gen_architecture.py`, which AST-parses
+  the project's imports into a Mermaid module-dependency graph at `ARCHITECTURE.md`
+  (GitHub renders it inline; no PlantUML/Java). It's timestamp-free → the file
+  only changes when the real import graph changes, so it never adds diff noise.
+  Install once per clone: `git config core.hooksPath .githooks`. When Claude
+  commits, run the generator too (the hook only fires on the owner's machine if
+  installed) so ARCHITECTURE.md always tracks the code.
 
 ## Data Rules
 
@@ -211,6 +222,8 @@ uv run python -m evals.make_review_sheet   # EXISTS — regenerasi lembar review
 uv run python -m evals.gate_check --baseline <best.json>   # EXISTS — gerbang regresi retrieval sblm merge
 uv run python -m evals.run_generation --limit 5   # EXISTS — eval generasi (butuh GEMINI_API_KEY; --limit utk hemat kuota)
 uv run python -m evals.calibrate_judge            # EXISTS — buat lembar kalibrasi buta; --score utk hitung agreement
+git config core.hooksPath .githooks               # EXISTS — install pre-commit hook (auto-regen ARCHITECTURE.md), sekali per clone
+uv run python scripts/gen_architecture.py         # EXISTS — regen diagram Mermaid manual (hook memanggil ini)
 ```
 
 ## What NOT to Do
