@@ -126,8 +126,10 @@ def make(argv_result: Path | None) -> int:
     )
     print(f"source: {result_path.name} — {len(rows)} judged items")
     print(f"1. read {CALIB_DIR / 'judge_calibration.md'}")
-    print(f"2. fill {CALIB_DIR / 'human_scores.json'} (do NOT open judge_scores.json)")
-    print("3. run: uv run python -m evals.calibrate_judge --score")
+    print(f'2. fill {CALIB_DIR / "human_scores.json"} — ganti tiap "" jadi label')
+    print("   (do NOT open judge_scores.json — bikin bias)")
+    print("3. HANYA setelah terisi, run: uv run python -m evals.calibrate_judge --score")
+    print("   (jalankan --score sekarang = 0 skor; ini BUKAN vonis jelek, cuma belum diisi)")
     return 0
 
 
@@ -139,6 +141,14 @@ def score() -> int:
     human = json.loads(human_path.read_text(encoding="utf-8"))
     judge = json.loads(judge_path.read_text(encoding="utf-8"))
     res = agreement(human, judge)
+
+    if res["n_scored"] == 0:
+        print(
+            "0 items scored — human_scores.json is still empty.\n"
+            f"Isi dulu penilaianmu di {human_path} (baca {CALIB_DIR / 'judge_calibration.md'}),\n"
+            'ganti tiap "" jadi label (mis. "supported"/"correct"), lalu jalankan --score lagi.'
+        )
+        return 2
 
     print(f"scored {res['n_scored']} items")
     for d, a in res["per_dimension"].items():

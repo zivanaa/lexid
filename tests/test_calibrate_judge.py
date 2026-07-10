@@ -112,6 +112,27 @@ def test_score_without_make_errors(tmp_path, monkeypatch):
     assert main(["--score"]) == 2  # CalibrationError → exit 2
 
 
+def test_score_with_empty_human_is_precondition_not_verdict(tmp_path, monkeypatch, capsys):
+    # running --score before filling human_scores.json must NOT say "NOT trustworthy"
+    import evals.calibrate_judge as cj
+
+    calib = tmp_path / "calib"
+    calib.mkdir()
+    (calib / "human_scores.json").write_text(
+        json.dumps({"d1": {"faithfulness": "", "correctness": ""}}), encoding="utf-8"
+    )
+    (calib / "judge_scores.json").write_text(
+        json.dumps({"d1": {"faithfulness": "supported", "correctness": "correct"}}),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(cj, "CALIB_DIR", calib)
+    rc = main(["--score"])
+    out = capsys.readouterr().out
+    assert rc == 2  # precondition, not a verdict
+    assert "NOT trustworthy" not in out
+    assert "empty" in out
+
+
 def test_agreement_disagreement_fails_target():
     judge = {i: {"faithfulness": "supported", "correctness": "correct"} for i in "abcde"}
     # human disagrees on faithfulness for 2 of 5 → 0.6 < 0.8
