@@ -79,7 +79,9 @@ def redact_names(text: str, names: list[str], counts: dict[str, int]) -> str:
         if not name.strip():
             continue
         token = seen.setdefault(name, f"[NAMA_{len(seen) + 1}]")
-        redacted, n = re.subn(re.escape(name), token, text)
+        # IGNORECASE: the NER is uncased and court headers ALL-CAPS defendant
+        # names, so match case-insensitively or those variants leak.
+        redacted, n = re.subn(re.escape(name), token, text, flags=re.IGNORECASE)
         if n:
             text = redacted
             counts[token] = counts.get(token, 0) + n
@@ -119,10 +121,21 @@ def _ner():
 
 def detect_person_names(text: str) -> list[str]:
     """Distinct PERSON names in the text, via the off-the-shelf NER. ORG/GPE etc.
-    are intentionally NOT returned, so institutions survive anonymization."""
-    ents = _ner()(text)
-    names = [e["word"].strip() for e in ents if e.get("entity_group") == "PER"]
-    return list(dict.fromkeys(n for n in names if n))  # dedupe, keep order
+    are intentionally NOT returned, so institutions survive anonymization.
+
+    Uses char offsets (start/end) to recover the ORIGINAL-CASE surface form: the
+    model is uncased and returns a lowercased 'word', which would not match the
+    mixed-case source text at redaction time.
+    """
+    names = []
+    for e in _ner()(text):
+        if e.get("entity_group") != "PER":
+            continue
+        name = text[e["start"] : e["end"]] if "start" in e else e.get("word", "")
+        name = name.strip()
+        if name:
+            names.append(name)
+    return list(dict.fromkeys(names))  # dedupe, keep order
 
 
 def anonymize_auto(text: str) -> AnonymizationResult:

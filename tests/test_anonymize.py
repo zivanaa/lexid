@@ -65,32 +65,42 @@ def test_report_counts_and_clean_text_untouched():
 # --- layer 2: NER name detection (pipeline stubbed; no model download) ---
 
 
-def _stub_ner(entities):
+def _uncased_ner(text, mentions):
+    """Mimic the real (uncased) pipeline: lowercased 'word' + char offsets."""
+    ents = []
+    for sub, group in mentions:
+        i = text.find(sub)
+        ents.append({"entity_group": group, "word": sub.lower(), "start": i, "end": i + len(sub)})
+
     class _Pipe:
-        def __call__(self, text):
-            return entities
+        def __call__(self, _t):
+            return ents
 
     return lambda: _Pipe()
 
 
-def test_detect_person_names_keeps_only_PER(monkeypatch):
+def test_detect_person_names_recovers_original_case_and_drops_org(monkeypatch):
+    text = "Budi Santoso menghadap Pengadilan Negeri, lalu Siti Aminah datang."
     monkeypatch.setattr(
         anon,
         "_ner",
-        _stub_ner(
-            [
-                {"entity_group": "PER", "word": "Budi Santoso"},
-                {"entity_group": "ORG", "word": "Pengadilan Negeri Jakarta"},
-                {"entity_group": "PER", "word": "Siti Aminah"},
-                {"entity_group": "PER", "word": "Budi Santoso"},  # duplicate
-            ]
+        _uncased_ner(
+            text, [("Budi Santoso", "PER"), ("Pengadilan Negeri", "ORG"), ("Siti Aminah", "PER")]
         ),
     )
-    assert detect_person_names("...") == ["Budi Santoso", "Siti Aminah"]  # deduped, PER only
+    # original case recovered via offsets (not the lowercased word); ORG dropped
+    assert detect_person_names(text) == ["Budi Santoso", "Siti Aminah"]
 
 
-def test_anonymize_auto_scrubs_names_and_pii(monkeypatch):
-    monkeypatch.setattr(anon, "_ner", _stub_ner([{"entity_group": "PER", "word": "Budi Santoso"}]))
-    out = anonymize_auto("Budi Santoso, NIK 3327012345678901, hadir di persidangan.")
+def test_redact_names_case_insensitive_catches_allcaps_header():
+    # court headers ALL-CAPS the defendant; case-sensitive match would leak it
+    out = redact_names("Terdakwa BUDI SANTOSO diputus", ["Budi Santoso"], {})
+    assert "BUDI SANTOSO" not in out and "[NAMA_1]" in out
+
+
+def test_anonymize_auto_scrubs_uncased_names_and_pii(monkeypatch):
+    text = "Terdakwa Budi Santoso, NIK 3327012345678901, hadir di persidangan."
+    monkeypatch.setattr(anon, "_ner", _uncased_ner(text, [("Budi Santoso", "PER")]))
+    out = anonymize_auto(text)
     assert "Budi Santoso" not in out.text and "3327012345678901" not in out.text
     assert "[NAMA_1]" in out.text and "[NIK]" in out.text
