@@ -40,9 +40,14 @@ _PII_RULES: list[tuple[str, re.Pattern]] = [
     # vehicle plate: 1-2 letters · 1-4 digits · 1-3 letters (e.g. "B 1234 XYZ")
     ("[PLAT]", re.compile(r"\b[A-Z]{1,2}\s?\d{1,4}\s?[A-Z]{1,3}\b")),
 ]
-# address after "beralamat di" up to end of line / semicolon (addresses contain
-# their own periods, so we can't stop at the first ".")
-_ADDRESS = re.compile(r"(beralamat di\s+)([^;\n]+)", re.IGNORECASE)
+# address after a label up to the next ";" (identitas fields are ;-terminated;
+# addresses span multiple lines and contain their own periods). Real putusan use
+# "Tempat tinggal:" far more than "beralamat di" — validated on a real decision.
+# Capped at 300 chars so a mislabelled match can't run away.
+_ADDRESS = re.compile(
+    r"((?:beralamat di|bertempat tinggal di|tempat tinggal)\s*:?\s*)([^;]{1,300})",
+    re.IGNORECASE,
+)
 
 
 class AnonymizationResult(BaseModel):
@@ -68,24 +73,43 @@ def _scrub_structured(text: str, counts: dict[str, int]) -> str:
     return text
 
 
+# a real name: starts/ends with a letter; letters/space/.'- inside; >= 3 chars.
+# Kills the NER's single-char / fragment garbage that otherwise gets replaced
+# GLOBALLY (even inside inserted [NAMA_x] tokens) and corrupts the whole document.
+_NAME_LIKE = re.compile(r"[^\W\d_][\w.'\- ]*[^\W\d_]", re.UNICODE)
+
+
+def _looks_like_name(s: str) -> bool:
+    s = s.strip()
+    return len(s) >= 3 and _NAME_LIKE.fullmatch(s) is not None
+
+
 def redact_names(text: str, names: list[str], counts: dict[str, int]) -> str:
     """Replace each distinct person name with a stable role token [NAMA_i].
 
-    `names` comes from an off-the-shelf NER (persons only; institutions omitted so
-    they survive). Longest names first so a full name is replaced before a partial.
+    ONE combined-regex pass (not a loop of global replaces): re.sub never
+    re-scans the text it already inserted, so tokens can't be corrupted or
+    explode recursively. Longest name first (alternation order) so a full name
+    wins over a partial; IGNORECASE because the NER is uncased and headers
+    ALL-CAPS names. Junk spans (single chars/fragments) are filtered out.
     """
-    seen: dict[str, str] = {}
-    for name in sorted(set(names), key=len, reverse=True):
-        if not name.strip():
-            continue
-        token = seen.setdefault(name, f"[NAMA_{len(seen) + 1}]")
-        # IGNORECASE: the NER is uncased and court headers ALL-CAPS defendant
-        # names, so match case-insensitively or those variants leak.
-        redacted, n = re.subn(re.escape(name), token, text, flags=re.IGNORECASE)
-        if n:
-            text = redacted
-            counts[token] = counts.get(token, 0) + n
-    return text
+    clean = [n.strip() for n in names if _looks_like_name(n)]
+    if not clean:
+        return text
+    token_of: dict[str, str] = {}
+    for n in clean:  # stable token per distinct (case-folded) name, first-seen order
+        token_of.setdefault(n.lower(), f"[NAMA_{len(token_of) + 1}]")
+    ordered = sorted(set(clean), key=len, reverse=True)
+    # \b so a name never matches INSIDE a longer word (real bug: "Agus" was
+    # redacted inside "Agustus" → "[NAMA]tus"). Names start/end with letters.
+    pattern = re.compile(r"\b(?:" + "|".join(re.escape(n) for n in ordered) + r")\b", re.IGNORECASE)
+
+    def _repl(m: re.Match) -> str:
+        token = token_of[m.group().lower()]
+        counts[token] = counts.get(token, 0) + 1
+        return token
+
+    return pattern.sub(_repl, text)
 
 
 def anonymize(text: str, names: list[str] | None = None) -> AnonymizationResult:
@@ -119,22 +143,30 @@ def _ner():
         raise AnonymizeError(f"cannot load NER model '{settings.ner_model}': {e}") from e
 
 
-def detect_person_names(text: str) -> list[str]:
+def detect_person_names(
+    text: str, window: int = 1500, overlap: int = 200, min_score: float = 0.9
+) -> list[str]:
     """Distinct PERSON names in the text, via the off-the-shelf NER. ORG/GPE etc.
     are intentionally NOT returned, so institutions survive anonymization.
 
-    Uses char offsets (start/end) to recover the ORIGINAL-CASE surface form: the
-    model is uncased and returns a lowercased 'word', which would not match the
-    mixed-case source text at redaction time.
+    Court decisions run tens of thousands of tokens but BERT caps at 512, so the
+    text is chunked into overlapping char windows (~1500 chars < 512 tokens);
+    the overlap keeps a name split at a boundary recoverable. We only need the
+    name STRINGS — redact_names then scrubs every occurrence globally — so
+    per-window offsets (which recover ORIGINAL case; the model is uncased) are
+    enough. Names are deduped across windows.
     """
-    names = []
-    for e in _ner()(text):
-        if e.get("entity_group") != "PER":
-            continue
-        name = text[e["start"] : e["end"]] if "start" in e else e.get("word", "")
-        name = name.strip()
-        if name:
-            names.append(name)
+    ner = _ner()
+    names: list[str] = []
+    step = max(1, window - overlap)
+    for start in range(0, len(text), step):
+        chunk = text[start : start + window]
+        for e in ner(chunk):
+            if e.get("entity_group") != "PER" or e.get("score", 1.0) < min_score:
+                continue
+            name = (chunk[e["start"] : e["end"]] if "start" in e else e.get("word", "")).strip()
+            if _looks_like_name(name):  # drop the NER's single-char / fragment noise
+                names.append(name)
     return list(dict.fromkeys(names))  # dedupe, keep order
 
 

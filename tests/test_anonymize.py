@@ -34,6 +34,24 @@ def test_scrubs_address_after_beralamat_di():
     assert "kemudian" in out.text  # only the address, not the rest, is redacted
 
 
+def test_scrubs_multiline_tempat_tinggal_address():
+    # real putusan label the identitas address "Tempat tinggal:", spanning lines
+    text = (
+        "Tempat tinggal\n: Jalan Daan Mogot No. 20 K, RT 10\nRW 03, Jakarta Barat;\nAgama : Kristen"
+    )
+    out = anonymize(text)
+    assert "Jalan Daan Mogot" not in out.text and "Jakarta Barat" not in out.text
+    assert "[ALAMAT]" in out.text
+    assert "Agama" in out.text  # field after the ; survives
+
+
+def test_name_not_redacted_inside_longer_word():
+    # regression: "Agus" (a name) must not be redacted inside "Agustus" (August)
+    out = redact_names("lahir 15 Agustus 1973, terdakwa Agus hadir", ["Agus"], {})
+    assert "Agustus" in out  # the month is intact
+    assert out.count("[NAMA_1]") == 1  # only the standalone name
+
+
 def test_names_become_stable_role_tokens():
     text = "Budi Santoso bertemu Budi Santoso lalu Siti Aminah datang."
     out = anonymize(text, names=["Budi Santoso", "Siti Aminah"])
@@ -46,6 +64,13 @@ def test_longest_name_first_avoids_partial_leak():
     # replacing "Budi" first would leave "[NAMA] Santoso" leaking the surname
     out = redact_names("Budi Santoso hadir.", ["Budi", "Budi Santoso"], {})
     assert "Santoso" not in out
+
+
+def test_redact_names_drops_junk_and_never_corrupts_tokens():
+    # 'A'/'x'/'di' are junk (too short / not name-like) → filtered; single-pass
+    # replacement must not eat characters inside an inserted [NAMA_x] token
+    out = redact_names("Budi Santoso dan Budi Santoso", ["Budi Santoso", "A", "x", "di"], {})
+    assert out == "[NAMA_1] dan [NAMA_1]"  # clean, no nesting, junk ignored
 
 
 def test_institutional_names_kept():
@@ -96,6 +121,71 @@ def test_redact_names_case_insensitive_catches_allcaps_header():
     # court headers ALL-CAPS the defendant; case-sensitive match would leak it
     out = redact_names("Terdakwa BUDI SANTOSO diputus", ["Budi Santoso"], {})
     assert "BUDI SANTOSO" not in out and "[NAMA_1]" in out
+
+
+def _content_ner():
+    """Position-aware stub: returns PER spans for any known name found IN the
+    chunk it's given, so window-chunking behavior is actually exercised."""
+    import re as _re
+
+    known = ("Budi Santoso", "Siti Aminah")
+
+    class _Pipe:
+        def __call__(self, chunk):
+            out = []
+            for name in known:
+                for m in _re.finditer(_re.escape(name), chunk, _re.I):
+                    out.append(
+                        {
+                            "entity_group": "PER",
+                            "word": m.group().lower(),
+                            "start": m.start(),
+                            "end": m.end(),
+                        }
+                    )
+            return out
+
+    return lambda: _Pipe()
+
+
+def test_detect_names_chunks_long_text(monkeypatch):
+    # a name that only appears PAST the first window must still be found
+    monkeypatch.setattr(anon, "_ner", _content_ner())
+    text = "awal " + "x" * 2000 + " Siti Aminah menutup sidang."
+    assert detect_person_names(text, window=1500, overlap=200) == ["Siti Aminah"]
+
+
+def test_detect_filters_low_score_and_fragments(monkeypatch):
+    text = "Budi Santoso xx"
+
+    class _Pipe:
+        def __call__(self, chunk):
+            return [
+                {
+                    "entity_group": "PER",
+                    "word": "budi santoso",
+                    "start": 0,
+                    "end": 12,
+                    "score": 0.99,
+                },
+                {
+                    "entity_group": "PER",
+                    "word": "x",
+                    "start": 13,
+                    "end": 14,
+                    "score": 0.99,
+                },  # fragment
+                {
+                    "entity_group": "PER",
+                    "word": "budi",
+                    "start": 0,
+                    "end": 4,
+                    "score": 0.3,
+                },  # low score
+            ]
+
+    monkeypatch.setattr(anon, "_ner", lambda: _Pipe())
+    assert detect_person_names(text) == ["Budi Santoso"]  # junk + low-score dropped
 
 
 def test_anonymize_auto_scrubs_uncased_names_and_pii(monkeypatch):

@@ -25,3 +25,24 @@ Publishing checklist (all required before the model/dataset goes on HF Hub):
 
 Also: scrape politely (rate limit, honest User-Agent), record source URLs +
 dates in data/raw/MANIFEST.json, and never commit non-anonymized decision text.
+
+## Validated on 1 real decision (2026-07-10)
+
+Ran `anonymize_auto` on a real PK/PID.SUS putusan (145K chars). This is exactly
+why real-data validation matters — it surfaced 4 bugs synthetic tests missed,
+now fixed + regression-tested: (1) the uncased NER returns lowercased names that
+didn't match mixed-case source (fix: offsets + IGNORECASE); (2) BERT's 512-token
+cap crashed on the long doc (fix: overlapping char-window chunking); (3) junk
+NER spans (single chars) were replaced globally and corrupted the whole document
+(fix: score≥0.9 + name-like filter + single combined-regex pass); (4) a name was
+redacted INSIDE a longer word ("Agus" inside "Agustus") and addresses were missed
+because they use "Tempat tinggal:" not "beralamat di" (fix: \b word boundaries +
+broader address labels).
+
+CONFIRMED working: defendant name, the identitas address, and a phone were
+redacted; case numbers, rupiah amounts, courts/agencies, and legal terms were
+correctly preserved. KNOWN residual gaps for the manual reviewer to watch:
+birthplace / DOB / age are not yet scrubbed (out of the current regex scope);
+a second, label-less alternative address can slip through; deep witness names
+depend on NER recall. This confirms the design: the regex+NER gate is a FIRST
+PASS — manual review (steps above) remains mandatory, not optional.
