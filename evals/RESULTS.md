@@ -9,6 +9,12 @@ per-difficulty: direct X / paraphrase X / multi_hop X / unanswerable X
 takeaway: <one line>
 ```
 
+## 2026-07-10 — finding f-001: n04 false-refusal root-caused to chunk dilution
+n04 ("Apakah warisan termasuk objek PPh?", gold bt:0040) false-refused in gen-001. Traced the gold chunk's rank: **dense #15 · BM25 #11 · hybrid #8** — never in the top-5 the pipeline showed the model.
+Root cause, two layers: (1) **term ambiguity** — "warisan" lives in ≥2 chunks with different legal meaning: bt:0040 (warisan *excluded* from objek pajak, Pasal 4(3)b — the answer) vs bt:0025 ("warisan yang belum terbagi" as a tax *subject*); retrieval ranked bt:0025 (hybrid #3) above the correct bt:0040. (2) **signal dilution** — bt:0040 buries "warisan" as one item ("b. warisan;") inside a 250-word list of ~10 Pasal 4(3) exclusions, so its dense embedding is spread thin and BM25 length-normalization penalizes the lone occurrence. RRF *helped* (lifted the gold from #15/#11 to #8) but not into the top-5.
+NOT a generation flaw: given a top-5 without the answer (and the wrong-context bt:0025 present), the model **refused instead of hallucinating** — grounded-or-refuse working, so this false-refusal is honest.
+Remedy → motivates the untested **chunking** variable in docs/evals.md: structure-aware pasal/ayat chunking (or smaller chunks) would isolate the exclusion list and concentrate the signal. Candidate exp-005 — investigate before growing the eval set.
+
 ## 2026-07-09 — cal-001: judge calibration PASSED → gen-001 judge metrics now citable
 method: owner blind-rescored all 42 judged items (judge verdict hidden), agreement vs gemma-4-26b-a4b-it computed by evals/calibrate_judge | commit: 4de1461 | eval set v1.1
 judge–human agreement: faithfulness 0.952 · correctness 0.929 · overall 0.940 (both dims ≥ 0.8 target)
