@@ -101,7 +101,9 @@ free endpoint throws transient 5xx → per-item graceful skip + retry),
 `evals/calibrate_judge.py` + `tests/test_calibrate_judge.py` (judge–human
 agreement: builds a BLIND re-scoring sheet hiding the judge verdict, computes
 per-dimension agreement, gates citability at >=0.8; offline, $0; artifacts in
-gitignored evals/calibration/. NOT yet run — needs owner re-scoring).
+gitignored evals/calibration/. RUN 2026-07-09 (cal-001): owner blind-scored all
+42 items → agreement faithfulness 0.95 / correctness 0.93 / overall 0.94 →
+judge VALIDATED, gen-001 metrics now CITABLE).
 
 PLANNED: none — Phase 1 file list complete (RAG + retrieval eval + generation
 eval all EXIST). Remaining Phase 1 work is running the generation eval live +
