@@ -30,12 +30,16 @@ No paid APIs, no paid GPUs, no paid hosting. Concretely:
 
 ## Current Phase
 
-- [ ] **Phase 1: RAG foundation + evaluation pipeline** ← CURRENT
-- [ ] Phase 2: NER fine-tuning · [ ] Phase 3: Agent + guardrails · [ ] Phase 4: Deploy
+- [x] Phase 1: RAG foundation + evaluation pipeline — COMPLETE (RAG shipped w/ hybrid;
+  retrieval exp-001..004; gen-001 w/ judge calibrated cal-001; f-001 → exp-005 backlog)
+- [ ] **Phase 2: NER fine-tuning** ← CURRENT · [ ] Phase 3: Agent + guardrails · [ ] Phase 4: Deploy
 
-Never build ahead of the current phase. Within Phase 1 the order is fixed:
-naive end-to-end baseline → eval set + harness → measured baseline → only then
-experiments. Never optimize before the baseline is measured.
+Never build ahead of the current phase. Phase 2 order (docs/finetuning.md +
+docs/data-privacy.md) is FIXED and gated: build + validate the anonymization
+pipeline FIRST (blocking legal/ethical gate, UU PDP) → corpus (court decisions,
+scrape politely) → anonymize → label (distill + human review) → frozen splits →
+QLoRA train on free cloud GPU (Kaggle/Colab) → 4-way comparison. NEVER label,
+train, publish, or commit non-anonymized decision text before the gate runs.
 
 ## What EXISTS vs PLANNED
 

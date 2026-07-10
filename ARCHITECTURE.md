@@ -12,6 +12,9 @@ graph LR
     evals_run_generation["run_generation"]
     evals_run_retrieval["run_retrieval"]
   end
+  subgraph finetuning
+    finetuning_dataset_anonymize["dataset.anonymize"]
+  end
   subgraph ingestion
     ingestion_chunk["chunk"]
     ingestion_embed["embed"]

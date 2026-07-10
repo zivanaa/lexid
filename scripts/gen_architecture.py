@@ -16,7 +16,17 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 # top-level project packages/modules; an import is "internal" iff its first
 # dotted component is one of these
-PACKAGES = ("config", "prompts", "rag", "ingestion", "evals", "scripts", "agent", "api")
+PACKAGES = (
+    "config",
+    "prompts",
+    "rag",
+    "ingestion",
+    "evals",
+    "finetuning",
+    "scripts",
+    "agent",
+    "api",
+)
 OUT = ROOT / "ARCHITECTURE.md"
 
 
